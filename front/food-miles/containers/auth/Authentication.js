@@ -31,10 +31,20 @@ const signOut = async() => {
     return await removeToken();
 }
   
+const isAuthenticated = () => {
+    getToken().then((response) => {
+        if (response != null){
+        return true
+        }
+    }).catch((error) => {
+        return false;
+    }); 
+}
 
-const signUp = credentials => {
+
+const authenticate = credentials => {
     const baseUrl = __DEV__ ? 'http://192.168.0.102:3000' : 'https://google.com'
-    return fetch(baseUrl + '/new/user', {
+    return fetch(baseUrl + '/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ auth: credentials })
@@ -45,7 +55,7 @@ const signUp = credentials => {
         return false;
     }).then(response => {
         if(response.status === 'success') {
-            signIn(response.jwt); //já volta com o token de autenticação
+            signIn(response.jwt);
             return true;
         } else {
             return false;
@@ -54,4 +64,5 @@ const signUp = credentials => {
 }
 
 
-  export { signOut, signIn, getToken, signUp}
+
+  export {authenticate, isAuthenticated, signOut, signIn, getToken}
