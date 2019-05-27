@@ -31,6 +31,38 @@ const signOut = async() => {
     return await removeToken();
 }
   
+const isAuthenticated = () => {
+    getToken().then((response) => {
+        if (response != null){
+        return true
+        }
+    }).catch((error) => {
+        return false;
+    }); 
+}
+
+
+const authenticate = credentials => {
+    const baseUrl = __DEV__ ? 'http://192.168.0.102:3000' : 'https://google.com'
+    return fetch(baseUrl + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ auth: credentials })
+    }).then((data) => {
+        return data.json();
+    }, (fetchError) => {
+        console.error(fetchError, 'No data response');
+        return false;
+    }).then(response => {
+        if(response.status === 'success') {
+            signIn(response.jwt);
+            return true;
+        } else {
+            return false;
+        }
+    });
+}
+
 
 const signUp = credentials => {
     const baseUrl = __DEV__ ? 'http://192.168.0.102:3000' : 'https://google.com'
@@ -54,4 +86,4 @@ const signUp = credentials => {
 }
 
 
-  export { signOut, signIn, getToken, signUp}
+  export {authenticate, isAuthenticated, signOut, signIn, getToken, signUp}
