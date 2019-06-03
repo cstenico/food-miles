@@ -1,0 +1,29 @@
+{
+    "users": {
+        "user1": {
+            "email": "user1@gmail.com",
+            "name": "user1",
+            "cpf": "000",
+            "telephone": "99999999"
+        }
+    },
+    "products": {
+        "user1": {
+            "product1": {
+                "name": "cool carrot",
+                "description": "this is cool veggie",
+                "price": "500",
+                "category": "veggies"
+            }
+        }
+    },
+    "categories": {
+        "veggies": {
+            "product1": {
+                "name": "cool carrot",
+                "description": "this is cool veggie",
+                "price": "500"
+            }
+        }
+    }
+}
