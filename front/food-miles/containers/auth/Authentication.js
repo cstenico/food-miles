@@ -43,45 +43,40 @@ const isAuthenticated = () => {
 
 
 const authenticate = credentials => {
-    const baseUrl = __DEV__ ? 'http://192.168.0.102:3000' : 'https://google.com'
+    const baseUrl = 'https://food-miles.herokuapp.com'
     return fetch(baseUrl + '/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ auth: credentials })
+        body: JSON.stringify( credentials )
     }).then((data) => {
-        return data.json();
+        console.log(data)
+        return data;
     }, (fetchError) => {
         console.error(fetchError, 'No data response');
         return false;
     }).then(response => {
-        if(response.status === 'success') {
-            signIn(response.jwt);
-            return true;
-        } else {
-            return false;
-        }
+        console.log(response)
+        return true;
     });
 }
 
 
 const signUp = credentials => {
-    const baseUrl = __DEV__ ? 'http://192.168.0.102:3000' : 'https://google.com'
-    return fetch(baseUrl + '/new/user', {
+    console.log(credentials)
+    const baseUrl = 'https://food-miles.herokuapp.com'
+    return fetch(baseUrl + '/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ auth: credentials })
+        body: JSON.stringify( credentials )
     }).then((data) => {
-        return data.json();
+        console.log(data)
+        return data;
     }, (fetchError) => {
         console.error(fetchError, 'No data response');
         return false;
     }).then(response => {
-        if(response.status === 'success') {
-            signIn(response.jwt); //já volta com o token de autenticação
-            return true;
-        } else {
-            return false;
-        }
+        console.log(response);
+        return true;
     });
 }
 

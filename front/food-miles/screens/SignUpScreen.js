@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
+import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
 import {signUp} from '../containers/auth/Authentication';
 
@@ -12,7 +12,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <KeyboardAvoidingView style={ styles.container }>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
           <Content contentContainerStyle ={{ paddingHorizontal: 10, alignItems:'center', justifyContent: "center"}}>
               <Image 
@@ -36,7 +36,7 @@ export default class HomeScreen extends React.Component {
                 }}
               >
                 {props => (
-                  <Content contentContainerStyle ={{paddingHorizontal: 10}}>
+                  <KeyboardAvoidingView contentContainerStyle ={{paddingHorizontal: 10}}>
                     <Item stackedLabel>
                       <Label>Nome</Label>
                       <Input
@@ -58,7 +58,7 @@ export default class HomeScreen extends React.Component {
                       <Input
                         onChangeText={props.handleChange('phone')}
                         onBlur={props.handleBlur('phone')}
-                        value={props.values.cpf}
+                        value={props.values.phone}
                       />
                     </Item>
                     <Item stackedLabel>
@@ -87,12 +87,12 @@ export default class HomeScreen extends React.Component {
                         <Text style={styles.textButton}>CRIAR CONTA</Text>
                       </TouchableOpacity>
                     </Content>
-                  </Content>
+                  </KeyboardAvoidingView>
                 )}
               </Formik>
             </Content>
         </Content>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
