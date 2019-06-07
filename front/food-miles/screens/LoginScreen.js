@@ -11,7 +11,8 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <ScrollView>
+      <KeyboardAvoidingView style={ styles.container }  behavior='padding'>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
             <Left>
             <Image
@@ -70,7 +71,9 @@ export default class HomeScreen extends React.Component {
               </Formik>
             </Content>
         </Content>
-      </View>
+      </KeyboardAvoidingView >
+      </ScrollView>
+
     );
   }
 }
