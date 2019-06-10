@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
+import {View, Image, ImageBackground,ScrollView, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
-import {signUp} from '../containers/auth/Authentication';
+import axios from 'axios';
 
 
 export default class HomeScreen extends React.Component {
@@ -12,7 +12,8 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+    <ScrollView>
+      <KeyboardAvoidingView style={ styles.container }  behavior='padding'>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
           <Content contentContainerStyle ={{ paddingHorizontal: 10, alignItems:'center', justifyContent: "center"}}>
               <Image 
@@ -24,14 +25,18 @@ export default class HomeScreen extends React.Component {
             <Formik
                 initialValues={{ email: '', password: '', cpf: '', name: '', phone: '' }}
                 onSubmit={(values, props) => {
-                  signUp(values).then((response) => {
-                    if(response){
-                      this.props.navigation.navigate('Main');
-                    }else{
-                      alert("Erro no cadastro");
-                    }
-                  }).catch((error)=>{
-                    throw new Error(error);
+                  axios.post('https://food-miles.herokuapp.com/signup', {
+                    name: values.name,
+                    cpf: values.cpf,
+                    email: values.email,
+                    phone: values.phone,
+                    password: values.password,
+                  }).then((data) => {
+                    console.log(data)
+                    return data;
+                  }).then(response => {
+                    console.log(response)
+                    this.props.navigation.navigate('Main');
                   });
                 }}
               >
@@ -58,7 +63,7 @@ export default class HomeScreen extends React.Component {
                       <Input
                         onChangeText={props.handleChange('phone')}
                         onBlur={props.handleBlur('phone')}
-                        value={props.values.cpf}
+                        value={props.values.phone}
                       />
                     </Item>
                     <Item stackedLabel>
@@ -86,13 +91,15 @@ export default class HomeScreen extends React.Component {
                       >
                         <Text style={styles.textButton}>CRIAR CONTA</Text>
                       </TouchableOpacity>
+                      <View style={{ flex : 1 }} />
                     </Content>
-                  </Content>
+                   </Content>
                 )}
               </Formik>
             </Content>
         </Content>
-      </View>
+      </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
 import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
 import { Formik} from 'formik';
-import {authenticate} from '../containers/auth/Authentication';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -11,7 +10,8 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <ScrollView>
+      <KeyboardAvoidingView style={ styles.container }  behavior='padding'>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
             <Left>
             <Image
@@ -22,14 +22,16 @@ export default class HomeScreen extends React.Component {
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values, props) => {
-                  authenticate(values).then((response) => {
-                    if(response){
-                      this.props.navigation.navigate('Main');
-                    }else{
-                      alert("Usuário e/ou senha incorreto");
-                    }
-                  }).catch((error)=>{
-                    throw new Error(error);
+                  console.log(values)
+                  axios.post('https://food-miles.herokuapp.com/login', {
+                    email: values.email,
+                    password: values.password,
+                  }).then((data) => {
+                    console.log(data)
+                    return data;
+                  }).then(response => {
+                    console.log(response)
+                    this.props.navigation.navigate('Main');
                   });
                 }}
               >
@@ -70,7 +72,9 @@ export default class HomeScreen extends React.Component {
               </Formik>
             </Content>
         </Content>
-      </View>
+      </KeyboardAvoidingView >
+      </ScrollView>
+
     );
   }
 }
