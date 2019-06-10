@@ -3,6 +3,8 @@ import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-ba
 import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
 import { Formik} from 'formik';
 import {authenticate} from '../containers/auth/Authentication';
+import { SearchBar } from 'react-native-elements';
+
 
 export default class FeedScreen extends React.Component {
   static navigationOptions = {
@@ -13,6 +15,24 @@ export default class FeedScreen extends React.Component {
     return (
       <View style={ styles.container }>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
+          <Image
+            source={ require('../assets/images/pretzel-smallpp.png')}
+            style = {[{marginLeft: 5}]}
+          />
+          <H1 style={[styles.text,{position: "absolute", top: 60, left: 80, fontSize: 15, color: '#56666a'}]}>Ola, Usuario!</H1>
+          <Image
+            source={ require('../assets/images/profilepic.png')}
+            style = {styles.userIcon}
+          /> 
+          <SearchBar
+            round
+            searchIcon={{ size: 24 }}
+            placeholder="Buscar produtos e lojinhas"
+            containerStyle={styles.searchContainer}
+            inputStyle={[styles.text,{fontSize: 12}]}
+            inputContainerStyle={styles.searchInputContainer}
+          />
+          
 
         </Content>
       </View>
@@ -23,7 +43,7 @@ export default class FeedScreen extends React.Component {
 var styles = StyleSheet.create({
   container: {
       flex: 1,
-      backgroundColor: '#FBF2D5'
+      backgroundColor: '#F4F7ED'
   },
   submitButton:{
     backgroundColor: '#7fa99b',
@@ -49,5 +69,25 @@ var styles = StyleSheet.create({
   logo: {
     width:'60%',
     height: '60%'
+  },
+  userIcon: {
+    position: "absolute",
+    top: 60,
+    right: 20,
+    flex: 1,
+    width: 40, 
+    height: 40, 
+    resizeMode: 'contain'  
+  },
+  searchContainer: {
+    position: "relative",
+    right: 10,
+    width: 360,
+    backgroundColor:'transparent',
+    borderTopWidth: 0,
+    borderBottomWidth: 0
+  },
+  searchInputContainer: {
+    backgroundColor: '#bdd2c6'
   }
 });
