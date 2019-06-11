@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- mini -->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="routes.css" />
+
+    <title>🥕Food Miles backend</title>
+</head>
+<body>
+    <h1><mark class="dont">🥕 Food Miles - Backend API</mark></h1>
+    
+    <h1>Routes</h1>
+    <div class="container">
+    Toda requisição precisa do campo <em>"idToken"</em>,
+    passado como <em>user_token</em>.
+
+    <h2><mark class="dont">/login</mark></h2>
+        <h3>POST</h3>
+        Autentica um usuário. Retorna o token de autenticação no campo <em>"idToken"</em> do .json.
+
+        <ul>
+                <li>email</li>
+                <li>password</li>
+        </ul>
+    <h2><mark class="dont">/signup</mark></h2>
+        <h3>POST</h3>
+        Insere um novo usuário.
+
+        <ul>
+            <li>email</li>
+            <li>name</li>
+            <li>password</li>
+            <li>cpf</li>
+            <li>telephone</li>
+            <li>address</li>
+        </ul>
+
+
+        <h2><mark class="dont">/products</mark></h2>
+        <h3>GET</h3>
+        Retorna todos os produtos de um cliente.
+
+        <ul>
+            <li>user_token</li>
+            <li>seller_email</li>
+        </ul>
+
+        <h3>POST</h3>
+        Insere um produto para um cliente e para sua respectiva categoria.
+
+        <ul>
+            <li>user_token</li>
+            <li>seller_email</li>
+            <li>product_name</li>
+            <li>product_price</li>
+            <li>product_description</li>
+            <li>product_category</li>
+        </ul>
+
+    <h2><mark class="dont">/products/image</mark></h2>
+        <h3>GET</h3>
+        Retorna a URL da imagem de um produto.
+
+        <ul>
+            <li>user_token</li>
+            <li>seller_email</li>
+            <li>product_name</li>
+        </ul>
+
+        <h3>POST</h3>
+        Insere uma imagem para um produto.
+
+        <ul>
+            <li>user_token</li>
+            <li>seller_email</li>
+            <li>product_name</li>
+            <li>product_image</li>
+        </ul>
+
+    <h2><mark class="dont">/categories</mark></h2>
+        <h3>GET</h3>
+        Retorna todos os produtos de uma categoria.
+
+        <ul>
+            <li>user_token</li>
+            <li>category</li>
+        </ul>
+
+        <h2><mark class="dont">/contact</mark></h2>
+        <h3>GET</h3>
+        Retorna a URL do chat do Whatsapp.
+
+        <ul>
+            <li>telephone</li>
+            <li>product_name</li>
+            <li>seller_name</li>
+        </ul>
+
+        <h2><mark class="dont">Database Schema</mark></h2>
+
+
+        <?xml version="1.0" standalone="no"?>
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" class="vtree" width="960" height="800"><style>
+.vtree-node text { font: 14px sans-serif; }
+.vtree-link { fill: none; stroke: #888; stroke-width: 2px; }
+.vtree-table { stroke-width: 2px; stroke: steelblue; }
+path.vtree-table { fill: white; }
+g.vtree-node rect { fill: white; stroke: black; stroke-width: 1px; }
+g.vtree-node rect.number-text { fill: #d8f0ed; }
+g.vtree-node rect.string-text { fill: #e7f0db; }
+g.vtree-node rect.boolean-text { fill: #e1d8f0; }
+g.vtree-node rect.null-text { fill: #888; }
+</style><g class="vtree-root" transform="translate(76.59761481654266,-64.29465104321076)scale(1)"><g class="vtree-node" transform="translate(480,228)"><g class="vtree-node" transform="translate(-8,0)"><path class="vtree-link" d="M8,4C8,44 205,44 205,84"/><path class="vtree-link" d="M8,4C8,44 3,44 3,84"/><path class="vtree-link" d="M8,4C8,44 -194,44 -194,84"/><g class="vtree-node" transform="translate(-215,58)"><path class="vtree-link" d="M21,26C21,90 21,90 21,154"/><g class="vtree-node" transform="translate(-71,80)"><g transform="translate(0,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="69" height="26"/><text x="4" y="22">email</text></g><g transform="translate(69,0)"><rect class="string-text" x="0" y="0" width="114" height="26"/><text x="4" y="22">user1@gmail.com</text></g><g transform="translate(0,26)"><rect class="string-text" x="0" y="0" width="69" height="26"/><text x="4" y="22">name</text></g><g transform="translate(69,26)"><rect class="string-text" x="0" y="0" width="114" height="26"/><text x="4" y="22">user1</text></g><g transform="translate(0,52)"><rect class="string-text" x="0" y="0" width="69" height="26"/><text x="4" y="22">cpf</text></g><g transform="translate(69,52)"><rect class="string-text" x="0" y="0" width="114" height="26"/><text x="4" y="22">000</text></g><g transform="translate(0,78)"><rect class="string-text" x="0" y="0" width="69" height="26"/><text x="4" y="22">telephone</text></g><g transform="translate(69,78)"><rect class="string-text" x="0" y="0" width="114" height="26"/><text x="4" y="22">99999999</text></g></g><g><text x="92" y="18" text-anchor="middle">user1</text></g></g><g transform="translate(13,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g><g transform="translate(8,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g></g><g><text x="21" y="18" text-anchor="middle">users</text></g></g><g class="vtree-node" transform="translate(-29,58)"><path class="vtree-link" d="M32,26C32,66 32,66 32,106"/><g class="vtree-node" transform="translate(12,80)"><path class="vtree-link" d="M20,26C20,90 20,90 20,154"/><g class="vtree-node" transform="translate(-76,80)"><g transform="translate(0,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="77" height="26"/><text x="4" y="22">name</text></g><g transform="translate(77,0)"><rect class="string-text" x="0" y="0" width="115" height="26"/><text x="4" y="22">cool carrot</text></g><g transform="translate(0,26)"><rect class="string-text" x="0" y="0" width="77" height="26"/><text x="4" y="22">description</text></g><g transform="translate(77,26)"><rect class="string-text" x="0" y="0" width="115" height="26"/><text x="4" y="22">this is cool veggie</text></g><g transform="translate(0,52)"><rect class="string-text" x="0" y="0" width="77" height="26"/><text x="4" y="22">price</text></g><g transform="translate(77,52)"><rect class="string-text" x="0" y="0" width="115" height="26"/><text x="4" y="22">500</text></g><g transform="translate(0,78)"><rect class="string-text" x="0" y="0" width="77" height="26"/><text x="4" y="22">category</text></g><g transform="translate(77,78)"><rect class="string-text" x="0" y="0" width="115" height="26"/><text x="4" y="22">veggies</text></g></g><g><text x="96" y="18" text-anchor="middle">product1</text></g></g><g transform="translate(12,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g><g transform="translate(8,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g></g><g><text x="20" y="18" text-anchor="middle">user1</text></g></g><g transform="translate(24,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g><g transform="translate(8,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g></g><g><text x="32" y="18" text-anchor="middle">products</text></g></g><g class="vtree-node" transform="translate(169,58)"><path class="vtree-link" d="M36,26C36,66 36,66 36,106"/><g class="vtree-node" transform="translate(9,80)"><path class="vtree-link" d="M27,26C27,83.5 27,83.5 27,141"/><g class="vtree-node" transform="translate(-69,80)"><g transform="translate(0,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="77" height="26"/><text x="4" y="22">name</text></g><g transform="translate(77,0)"><rect class="string-text" x="0" y="0" width="115" height="26"/><text x="4" y="22">cool carrot</text></g><g transform="translate(0,26)"><rect class="string-text" x="0" y="0" width="77" height="26"/><text x="4" y="22">description</text></g><g transform="translate(77,26)"><rect class="string-text" x="0" y="0" width="115" height="26"/><text x="4" y="22">this is cool veggie</text></g><g transform="translate(0,52)"><rect class="string-text" x="0" y="0" width="77" height="26"/><text x="4" y="22">price</text></g><g transform="translate(77,52)"><rect class="string-text" x="0" y="0" width="115" height="26"/><text x="4" y="22">500</text></g></g><g><text x="96" y="18" text-anchor="middle">product1</text></g></g><g transform="translate(19,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g><g transform="translate(8,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g></g><g><text x="27" y="18" text-anchor="middle">veggies</text></g></g><g transform="translate(28,22)"><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g><g transform="translate(8,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g></g><g><text x="36" y="18" text-anchor="middle">categories</text></g></g><g transform="translate(0,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g><g transform="translate(8,0)"><rect class="string-text" x="0" y="0" width="8" height="8"/><text x="4" y="4"> </text></g></g></g></g></svg>
+
+    </div>
+</body>
+</html>
