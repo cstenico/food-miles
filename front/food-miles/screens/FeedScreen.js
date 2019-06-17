@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
 import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
 import { Formik} from 'formik';
-import {authenticate} from '../containers/auth/Authentication';
 import { SearchBar } from 'react-native-elements';
 
 
@@ -11,7 +10,12 @@ export default class FeedScreen extends React.Component {
     header: null,
   };
 
+    
+
   render() {
+    const username = navigation.getParam('name', 'Usuário');
+    const useremail = navigation.getParam('email', 'example@gmail.com');
+
     return (
       <View style={ styles.container }>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
@@ -19,7 +23,7 @@ export default class FeedScreen extends React.Component {
             source={ require('../assets/images/pretzel-smallpp.png')}
             style = {[{marginLeft: 5}]}
           />
-          <H1 style={[styles.text,{position: "absolute", top: 60, left: 80, fontSize: 15, color: '#56666a'}]}>Ola, Usuario!</H1>
+          <H1 style={[styles.text,{position: "absolute", top: 60, left: 80, fontSize: 15, color: '#56666a'}]}>Ola, {username}</H1>
           <Image
             source={ require('../assets/images/profilepic.png')}
             style = {styles.userIcon}
