@@ -11,7 +11,7 @@ export default class HomeScreen extends React.Component {
   };
 
   postSignUp(params){
-    fetch('http://192.168.15.10:5000/signup', {
+    fetch('https://food-miles.herokuapp.com/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

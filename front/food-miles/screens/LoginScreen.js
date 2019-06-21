@@ -8,6 +8,25 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
+  postLogin(params){
+    fetch('http://192.168.15.10:5000/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        dataType : 'json',
+      },
+      body:  JSON.stringify({
+        email: params.email,
+        password: params.password,
+      })
+    })
+    .then((data) => {
+      console.log("POST RESPONSE: ", JSON.stringify(data));
+      return data;
+    })
+  }
+
   render() {
     return (
       <ScrollView>
@@ -22,44 +41,26 @@ export default class HomeScreen extends React.Component {
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values, props) => {
-                    fetch('https://food-miles.herokuapp.com/login', {
-                      method: 'POST',
-                      headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
+                  this.postLogin(values).then( response => {
+                    response.json();
+                    if (response.status == 200){
+                      this.props.navigation.navigate('Main', {
                         email: values.email,
-                        password: values.password,
-                      })
-                      
-                    }).then((data) => {
-                      console.log("POST RESPONSE: " , JSON.stringify(data));
-                      return data;
-                    }).then( response => {
-                      response.json();
-                      if (response.status == 200){
-                        this.props.navigation.navigate('Main', {
-                          email: values.email,
-                          name: 'User',
-                        });
-                      }else{
-                        Alert.alert(
-                          'Alert Title',
-                          'My Alert Msg',
-                          [
-                            {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-                            {
-                              text: 'Cancel',
-                              onPress: () => console.log('Cancel Pressed'),
-                              style: 'cancel',
-                            },
-                            {text: 'OK', onPress: () => console.log('OK Pressed')},
-                          ],
-                          {cancelable: false},
-                        );
-                      }
-                    });
+                        name: values.name,
+                      });
+                    }else{
+                      Alert.alert(
+                        'Alert Title',
+                        'My Alert Msg',
+                        [
+                          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel',},
+                          {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        ],
+                        {cancelable: false},
+                      );
+                    }
+                  });
                 }}
               >
                 {props => (
