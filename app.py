@@ -56,14 +56,17 @@ def index():
 @app.route('/signup', methods=['POST'])
 def signup_post():
 
+    jsonData = request.get_json()
+    print(jsonData)
+
     """SIGNUP route. Tries to auth and insert new user into database, returns Firebase JSON response"""
 
-    POST_EMAIL = str(request.form.get('email'))
-    POST_NAME = str(request.form.get('name'))
-    POST_PASSWORD = str(request.form.get('password'))
-    POST_CPF = ''.join(list(filter(lambda x: x.isdigit(), str(request.form.get('cpf')))))
-    POST_TELEPHONE = ''.join(list(filter(lambda x: x.isdigit(), str(request.form.get('telephone')))))
-    POST_ADDRESS = str(request.form.get('address'))
+    POST_EMAIL = str(jsonData['email'])
+    POST_NAME = str(jsonData['name'])
+    POST_PASSWORD = str(jsonData['password'])
+    POST_CPF = ''.join(list(filter(lambda x: x.isdigit(), str(jsonData['cpf']))))
+    POST_TELEPHONE = ''.join(list(filter(lambda x: x.isdigit(), str(jsonData['phone']))))
+    POST_ADDRESS = str(jsonData['address'])
 
     logger.info('Got SIGNUP request with params: ' + POST_EMAIL +  "," + POST_PASSWORD + "," + POST_NAME + "," + POST_CPF + "," + POST_TELEPHONE + "," + POST_ADDRESS)
 

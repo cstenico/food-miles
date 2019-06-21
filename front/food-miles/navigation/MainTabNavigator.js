@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import FeedScreen from '../screens/FeedScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import SignUpProducts from '../screens/SignupProduct';
 
 const FeedStack = createStackNavigator({
   Feed: FeedScreen,
@@ -13,6 +14,24 @@ const FeedStack = createStackNavigator({
 
 FeedStack.navigationOptions = {
   tabBarLabel: 'Feed',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const NewProductStack = createStackNavigator({
+  NewProduct: SignUpProducts,
+});
+
+NewProductStack.navigationOptions = {
+  tabBarLabel: 'Produtos',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -55,6 +74,6 @@ SettingsStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   FeedStack,
-  LinksStack,
+  NewProductStack,
   SettingsStack,
 });

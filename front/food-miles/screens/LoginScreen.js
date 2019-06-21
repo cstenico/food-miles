@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
+import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
 
 export default class HomeScreen extends React.Component {

@@ -10,7 +10,28 @@ export default class HomeScreen extends React.Component {
     header: null,
   };
 
-
+  postSignUp(params){
+    fetch('http://192.168.15.10:5000/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        dataType : 'json',
+      },
+      body:  JSON.stringify({
+        name: params.name,
+        cpf: params.cpf,
+        email: params.email,
+        phone: params.phone,
+        password: params.password,
+        address: params.address
+      })
+    })
+    .then((data) => {
+      console.log("POST RESPONSE: ", JSON.stringify(data));
+      return data;
+    })
+  }
 
   render() {
     return (
@@ -27,24 +48,7 @@ export default class HomeScreen extends React.Component {
             <Formik
               initialValues={{ email: '', password: '', cpf: '', name: '', phone: '', address: '' }}
               onSubmit={(values, props) => {
-                fetch('https://food-miles.herokuapp.com/signup', {
-                  method: 'POST',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    name: values.name,
-                    cpf: values.cpf,
-                    email: values.email,
-                    phone: values.phone,
-                    password: values.password,
-                    address: values.address
-                  })
-                }).then((data) => {
-                  console.log("POST RESPONSE: ", JSON.stringify(data));
-                  return data;
-                }).then( response => {
+                this.postSignUp(values).then( response => {
                   response.json();
                   if (response.status == 200){
                     this.props.navigation.navigate('Main', {
