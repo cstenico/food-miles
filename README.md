@@ -17,6 +17,8 @@ Ao anunciar um produto, esse item vai automaticamente para a lojinha do usuário
 
 O perfil do usuário funciona como uma vitrine dos produtos que está colocando à venda. 
 
+Conheça nossa API: <a href='https://food-miles.herokuapp.com'>food-miles.herokuapp.com</a>
+
 ## Team
 
 Camila Stenico dos Santos - 8530952
@@ -38,4 +40,3 @@ Yan Crisóstomo Rohwedder - 9779263
 </p>
 
 
-API:<a href='https://food-miles.herokuapp.com'>food-miles.herokuapp.com</a>
