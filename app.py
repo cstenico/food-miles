@@ -112,7 +112,6 @@ def login_post():
     try:
         response = auth.sign_in_with_email_and_password(POST_EMAIL, POST_PASSWORD)
         logger.info('Sucessfully logged in.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot login.')
@@ -134,7 +133,6 @@ def products_get():
     try:
         response = db.child("products").child(POST_SELLER).get().val()
         logger.info('Sucessfully got products list.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
@@ -180,7 +178,6 @@ def products_post():
         # insert product into respective category
         response = db.child("categories").child(POST_PRODUCT_CATEGORY).child(POST_PRODUCT_NAME).set(new_product)
         logger.info('Sucessfully inserted product into category.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot insert product into category.')
@@ -198,7 +195,6 @@ def category_get():
     try:
         response = db.child("categories").get().val()
         logger.info('Sucessfully got categories list.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get categories list.')
@@ -219,7 +215,6 @@ def category_products_get():
     try:
         response = db.child("categories").child(POST_CATEGORY).get().val()
         logger.info('Sucessfully got products list.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
@@ -244,7 +239,6 @@ def products_image_post():
     try:
         response = storage.child("products").child(POST_USER).child(POST_PRODUCT).put(POST_IMAGE)
         logger.info('Sucessfully uploaded product image.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot upload product image.')
@@ -265,7 +259,6 @@ def products_image_get():
     try:
         response = storage.child("products").child(POST_USER).child(POST_PRODUCT).get_url()
         logger.info('Sucessfully got product image.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get product image.')
@@ -284,7 +277,6 @@ def user():
     try:
         response = db.child("users").child(POST_EMAIL).get().val()
         logger.info('Sucessfully got user info.')
-        response['code'] = "200"
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get user info.')
