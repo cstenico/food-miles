@@ -203,7 +203,7 @@ def category_get():
 
 
 @app.route('/categories/products', methods=['GET'])
-def category_get():
+def category_products_get():
 
     """CATEGORIES/PRODUCTS (GET) route. Tries to get all products from a category, returns Firebase JSON response."""
 
