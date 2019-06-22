@@ -1,6 +1,6 @@
 {
     "users": {
-        "user1": {
+        "user1@gmail.com": {
             "email": "user1@gmail.com",
             "name": "user1",
             "cpf": "000",
@@ -8,7 +8,7 @@
         }
     },
     "products": {
-        "user1": {
+        "user1@gmail.com": {
             "product1": {
                 "name": "cool carrot",
                 "description": "this is cool veggie",
@@ -20,6 +20,7 @@
     "categories": {
         "veggies": {
             "product1": {
+                "seller_email": "user1",
                 "name": "cool carrot",
                 "description": "this is cool veggie",
                 "price": "500"
