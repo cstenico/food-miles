@@ -65,6 +65,7 @@ def signup_post():
     POST_CPF = ''.join(list(filter(lambda x: x.isdigit(), str(request.form.get('cpf')))))
     POST_TELEPHONE = ''.join(list(filter(lambda x: x.isdigit(), str(request.form.get('telephone')))))
     POST_ADDRESS = str(request.form.get('address'))
+    POST_IMAGE = request.files.get('user_image', '')
 
     logger.info('Got SIGNUP request with params: ' + POST_EMAIL +  "," + POST_PASSWORD + "," + POST_NAME + "," + POST_CPF + "," + POST_TELEPHONE + "," + POST_ADDRESS)
 
@@ -88,6 +89,8 @@ def signup_post():
         return json.dumps(error)
     # create new user (db)
     try:
+        storage.child("user").child(POST_EMAIL).put(POST_IMAGE)
+        new_user['image_url'] = storage.child("user").child(POST_EMAIL).get_url()
         db.child("users").child(POST_EMAIL).set(new_user_data)
         logger.info('Sucessfully inserted new user into database.')
         return json.dumps(new_user)
@@ -122,7 +125,7 @@ def login_post():
 
 
 # database routes
-@app.route('/products', methods=['GET'])
+@app.route('/user/products', methods=['GET'])
 def products_get():
 
     """PRODUCTS (GET) route. Tries to get all products from a user, returns Firebase JSON response."""
@@ -142,30 +145,36 @@ def products_get():
         return json.dumps(error) 
 
 
-@app.route('/products', methods=['POST'])
+@app.route('/user/products', methods=['POST'])
 def products_post():
 
     """PRODUCTS (POST) route. Tries to insert new product for a user, returns Firebase JSON response."""
 
-    SELLER_EMAIL = str(request.form.get('seller_email'))
+    POST_SELLER_EMAIL = str(request.form.get('seller_email'))
     POST_PRODUCT_NAME = str(request.form.get('product_name'))
     POST_PRODUCT_PRICE = str(request.form.get('product_price'))
     POST_PRODUCT_DESCRIPTION = str(request.form.get('product_description'))
     POST_PRODUCT_CATEGORY = str(request.form.get('product_category'))
+    POST_PRODUCT_IMAGE = request.files.get('user_image', '')
+    
+    logger.info('Got PRODUCT POST request with params: ' + POST_SELLER_EMAIL +  "," + POST_PRODUCT_NAME + "," + POST_PRODUCT_PRICE + "," + POST_PRODUCT_DESCRIPTION + "," + POST_PRODUCT_CATEGORY)
 
-    logger.info('Got PRODUCT POST request with params: ' + SELLER_EMAIL +  "," + POST_PRODUCT_NAME + "," + POST_PRODUCT_PRICE + "," + POST_PRODUCT_DESCRIPTION + "," + POST_PRODUCT_CATEGORY)
+    storage.child("products").child(POST_SELLER_EMAIL).child(POST_PRODUCT_NAME).put(POST_PRODUCT_IMAGE)
+    seller = db.child("users").child(POST_SELLER_EMAIL).get().val()
 
     new_product = {
-        "seller_email": SELLER_EMAIL,
+        "seller_name": seller['name'],
+        "seller_picture": seller['image_url'],
         "category": POST_PRODUCT_CATEGORY,
         "name": POST_PRODUCT_NAME,
         "description": POST_PRODUCT_DESCRIPTION,
-        "price": POST_PRODUCT_PRICE
+        "price": POST_PRODUCT_PRICE,
+        "picture_url": storage.child("products").child(POST_SELLER_EMAIL).child(POST_PRODUCT_NAME).get_url()
     }
 
     try:
         # insert product into 'products'
-        response = db.child("products").child(SELLER_EMAIL).child(POST_PRODUCT_NAME).set(new_product)
+        response = db.child("products").child(POST_SELLER_EMAIL).child(POST_PRODUCT_NAME).set(new_product)
         logger.info('Sucessfully inserted product.')
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot insert product.')
@@ -204,44 +213,23 @@ def category_get():
         return json.dumps(error)
 
 
-@app.route('/categories/products', methods=['GET'])
-def category_products_get():
-
-    """CATEGORIES/PRODUCTS (GET) route. Tries to get all products from a category, returns Firebase JSON response."""
-
-    POST_CATEGORY = str(request.form.get('category'))
-
-    logger.info('Got CATEGORY GET request with params: ' + POST_CATEGORY)
-    try:
-        response = db.child("categories").child(POST_CATEGORY).get().val()
-        logger.info('Sucessfully got products list.')
-        return json.dumps(response)
-    except requests.exceptions.HTTPError as e:
-        logger.error('Cannot get products list.')
-        error_json = e.args[1]
-        error = json.loads(error_json)
-        logger.error(error)
-        return json.dumps(error)
-
-
 # storage routes
-@app.route('/products/image', methods=['POST'])
-def products_image_post():
+@app.route('/user/image', methods=['POST'])
+def user_image_post():
 
-    """PRODUCTS UPLOAD (POST) route. Tries to upload image for a product, returns Firebase JSON response."""
+    """USER IMAGE UPLOAD (POST) route. Tries to upload profile picture for user, returns Firebase JSON response."""
 
-    POST_USER = str(request.form.get('seller_email'))
-    POST_PRODUCT = str(request.form.get('product_name'))
-    POST_IMAGE = request.files.get('product_image', '')
+    POST_USER = str(request.form.get('user_email'))
+    POST_IMAGE = request.files.get('user_image', '')
 
-    logger.info('Got PRODUCT IMAGE UPLOAD request with params: ' + POST_PRODUCT +  "," + str(POST_IMAGE))
-    
+    logger.info('Got PRODUCT IMAGE UPLOAD request with params: ' + str(POST_IMAGE))
+
     try:
-        response = storage.child("products").child(POST_USER).child(POST_PRODUCT).put(POST_IMAGE)
-        logger.info('Sucessfully uploaded product image.')
+        response = storage.child("user").child(POST_USER).put(POST_IMAGE)
+        logger.info('Sucessfully uploaded user image.')
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
-        logger.error('Cannot upload product image.')
+        logger.error('Cannot upload user image.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
         logger.error(error)
@@ -262,6 +250,25 @@ def products_image_get():
         return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get product image.')
+        error_json = e.args[1]
+        error = json.loads(error_json)['error']
+        logger.error(error)
+        return json.dumps(error)
+
+
+@app.route('/user/image', methods=['GET'])
+def user_image_get():
+
+    """USER IMAGE (GET) route. Tries to get user profile picture, returns Firebase JSON response."""
+
+    POST_USER = str(request.form.get('user_email'))
+
+    try:
+        response = storage.child("user").child(POST_USER).get_url()
+        logger.info('Sucessfully got user image.')
+        return json.dumps(response)
+    except requests.exceptions.HTTPError as e:
+        logger.error('Cannot get user image.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
         logger.error(error)
