@@ -111,14 +111,13 @@ def login_post():
     try:
         response = auth.sign_in_with_email_and_password(POST_EMAIL, POST_PASSWORD)
         logger.info('Sucessfully logged in.')
+        response['code'] = "200"
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot login.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
         return json.dumps(error)
-
-    response['code'] = "200"
-    return json.dumps(response)
 
 
 # database routes
@@ -133,14 +132,13 @@ def products_get():
     try:
         response = db.child("products").child(POST_SELLER).get().val()
         logger.info('Sucessfully got products list.')
+        response['code'] = "200"
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
         error_json = e.args[1]
         error = json.loads(error_json)
-        return json.dumps(error)
-
-    response['code'] = "200"
-    return json.dumps(response)
+        return json.dumps(error) 
 
 
 @app.route('/products', methods=['POST'])
@@ -149,7 +147,6 @@ def products_post():
     """PRODUCTS (POST) route. Tries to insert new product for a user, returns Firebase JSON response."""
 
     SELLER_EMAIL = str(request.form.get('seller_email'))
-
     POST_PRODUCT_NAME = str(request.form.get('product_name'))
     POST_PRODUCT_PRICE = str(request.form.get('product_price'))
     POST_PRODUCT_DESCRIPTION = str(request.form.get('product_description'))
@@ -158,6 +155,7 @@ def products_post():
     logger.info('Got PRODUCT POST request with params: ' + "," + SELLER_EMAIL +  "," + POST_PRODUCT_NAME + "," + POST_PRODUCT_PRICE + "," + POST_PRODUCT_DESCRIPTION + "," + POST_PRODUCT_CATEGORY)
 
     new_product = {
+        "seller_email": SELLER_EMAIL,
         "category": POST_PRODUCT_CATEGORY,
         "name": POST_PRODUCT_NAME,
         "description": POST_PRODUCT_DESCRIPTION,
@@ -178,35 +176,50 @@ def products_post():
         # insert product into respective category
         response = db.child("categories").child(POST_PRODUCT_CATEGORY).child(POST_PRODUCT_NAME).set(new_product)
         logger.info('Sucessfully inserted product into category.')
+        response['code'] = "200"
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot insert product into category.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
         return json.dumps(error)
 
-    response['code'] = "200"
-    return json.dumps(response)
-
 
 @app.route('/categories', methods=['GET'])
 def category_get():
 
-    """CATEGORIES (GET) route. Tries to get all products from a category, returns Firebase JSON response."""
+    """CATEGORIES (GET) route. Return all available categories."""
+    logger.info('Got CATEGORY GET request')
+    try:
+        response = db.child("categories").get().val()
+        logger.info('Sucessfully got categories list.')
+        response['code'] = "200"
+        return json.dumps(response)
+    except requests.exceptions.HTTPError as e:
+        logger.error('Cannot get categories list.')
+        error_json = e.args[1]
+        error = json.loads(error_json)
+        return json.dumps(error)
+
+
+@app.route('/categories/products', methods=['GET'])
+def category_get():
+
+    """CATEGORIES/PRODUCTS (GET) route. Tries to get all products from a category, returns Firebase JSON response."""
 
     POST_CATEGORY = str(request.form.get('category'))
 
-    logger.info('Got CATEGORY GET request with params: ' +  "," + POST_CATEGORY)
+    logger.info('Got CATEGORY GET request with params: ' + POST_CATEGORY)
     try:
         response = db.child("categories").child(POST_CATEGORY).get().val()
         logger.info('Sucessfully got products list.')
+        response['code'] = "200"
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
         error_json = e.args[1]
         error = json.loads(error_json)
         return json.dumps(error)
-
-    response['code'] = "200"
-    return json.dumps(response)
 
 
 # storage routes
@@ -224,14 +237,13 @@ def products_image_post():
     try:
         response = storage.child("products").child(POST_USER).child(POST_PRODUCT).put(POST_IMAGE)
         logger.info('Sucessfully uploaded product image.')
+        response['code'] = "200"
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot upload product image.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
         return json.dumps(error)
-
-    response['code'] = "200"
-    return json.dumps(response)
 
 
 @app.route('/products/image', methods=['GET'])
@@ -245,14 +257,13 @@ def products_image_get():
     try:
         response = storage.child("products").child(POST_USER).child(POST_PRODUCT).get_url()
         logger.info('Sucessfully got product image.')
+        response['code'] = "200"
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get product image.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
         return json.dumps(error)
-
-    response['code'] = "200"
-    return json.dumps(response)
 
 
 # users
@@ -264,14 +275,13 @@ def user():
     try:
         response = db.child("users").child(POST_EMAIL).get().val()
         logger.info('Sucessfully got user info.')
+        response['code'] = "200"
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get user info.')
         error_json = e.args[1]
         error = json.loads(error_json)
         return json.dumps(error)
-
-    response['code'] = "200"
-    return json.dumps(response)
 
 
 # contact route
