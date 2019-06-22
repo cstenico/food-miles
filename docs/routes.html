@@ -25,7 +25,7 @@
 
     <h2><mark class="dont">/login</mark></h2>
         <h3>POST</h3>
-        Autentica um usuário. Retorna o token de autenticação no campo <em>"idToken"</em> do .json.
+        Autentica um usuário.
 
         <ul>
                 <li>email</li>
@@ -50,7 +50,6 @@
         Retorna todos os produtos de um cliente.
 
         <ul>
-            <li>user_token</li>
             <li>seller_email</li>
         </ul>
 
@@ -58,7 +57,6 @@
         Insere um produto para um cliente e para sua respectiva categoria.
 
         <ul>
-            <li>user_token</li>
             <li>seller_email</li>
             <li>product_name</li>
             <li>product_price</li>
@@ -71,7 +69,6 @@
         Retorna a URL da imagem de um produto.
 
         <ul>
-            <li>user_token</li>
             <li>seller_email</li>
             <li>product_name</li>
         </ul>
@@ -80,7 +77,6 @@
         Insere uma imagem para um produto.
 
         <ul>
-            <li>user_token</li>
             <li>seller_email</li>
             <li>product_name</li>
             <li>product_image</li>
@@ -91,8 +87,15 @@
         Retorna todos os produtos de uma categoria.
 
         <ul>
-            <li>user_token</li>
             <li>category</li>
+        </ul>
+
+        <h2><mark class="dont">/user</mark></h2>
+        <h3>GET</h3>
+        Retorna as informações de um usuário, identificado pelo e-mail.
+
+        <ul>
+            <li>email</li>
         </ul>
 
         <h2><mark class="dont">/contact</mark></h2>

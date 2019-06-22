@@ -10,6 +10,7 @@ from flask import Flask, jsonify, request, render_template
 from dotenv import load_dotenv
 import json
 import logging
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
@@ -126,12 +127,11 @@ def products_get():
 
     """PRODUCTS (GET) route. Tries to get all products from a user, returns Firebase JSON response."""
 
-    POST_USER_TOKEN = str(request.form.get('user_token'))
     POST_SELLER = str(request.form.get('seller_email'))
 
-    logger.info('Got PRODUCTS GET request with params: ' + POST_USER_TOKEN +  "," + POST_SELLER)
+    logger.info('Got PRODUCTS GET request with params: ' +  "," + POST_SELLER)
     try:
-        response = db.child("products").child(POST_SELLER).get(POST_USER_TOKEN).val()
+        response = db.child("products").child(POST_SELLER).get().val()
         logger.info('Sucessfully got products list.')
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
@@ -148,15 +148,14 @@ def products_post():
 
     """PRODUCTS (POST) route. Tries to insert new product for a user, returns Firebase JSON response."""
 
-    POST_USER_TOKEN = str(request.form.get('user_token'))
-    POST_USER_TOKEN_EMAIL = str(request.form.get('seller_email'))
+    SELLER_EMAIL = str(request.form.get('seller_email'))
 
     POST_PRODUCT_NAME = str(request.form.get('product_name'))
     POST_PRODUCT_PRICE = str(request.form.get('product_price'))
     POST_PRODUCT_DESCRIPTION = str(request.form.get('product_description'))
     POST_PRODUCT_CATEGORY = str(request.form.get('product_category'))
 
-    logger.info('Got PRODUCT POST request with params: ' + POST_USER_TOKEN + "," + POST_USER_TOKEN_EMAIL +  "," + POST_PRODUCT_NAME + "," + POST_PRODUCT_PRICE + "," + POST_PRODUCT_DESCRIPTION + "," + POST_PRODUCT_CATEGORY)
+    logger.info('Got PRODUCT POST request with params: ' + "," + SELLER_EMAIL +  "," + POST_PRODUCT_NAME + "," + POST_PRODUCT_PRICE + "," + POST_PRODUCT_DESCRIPTION + "," + POST_PRODUCT_CATEGORY)
 
     new_product = {
         "category": POST_PRODUCT_CATEGORY,
@@ -167,7 +166,7 @@ def products_post():
 
     try:
         # insert product into 'products'
-        response = db.child("products").child(POST_USER_TOKEN_EMAIL).child(POST_PRODUCT_NAME).set(new_product, POST_USER_TOKEN)
+        response = db.child("products").child(SELLER_EMAIL).child(POST_PRODUCT_NAME).set(new_product)
         logger.info('Sucessfully inserted product.')
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot insert product.')
@@ -177,7 +176,7 @@ def products_post():
 
     try:
         # insert product into respective category
-        response = db.child("categories").child(POST_PRODUCT_CATEGORY).child(POST_PRODUCT_NAME).set(new_product, POST_USER_TOKEN)
+        response = db.child("categories").child(POST_PRODUCT_CATEGORY).child(POST_PRODUCT_NAME).set(new_product)
         logger.info('Sucessfully inserted product into category.')
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot insert product into category.')
@@ -194,12 +193,11 @@ def category_get():
 
     """CATEGORIES (GET) route. Tries to get all products from a category, returns Firebase JSON response."""
 
-    POST_USER_TOKEN = str(request.form.get('user_token'))
     POST_CATEGORY = str(request.form.get('category'))
 
-    logger.info('Got CATEGORY GET request with params: ' + POST_USER_TOKEN +  "," + POST_CATEGORY)
+    logger.info('Got CATEGORY GET request with params: ' +  "," + POST_CATEGORY)
     try:
-        response = db.child("categories").child(POST_CATEGORY).get(POST_USER_TOKEN).val()
+        response = db.child("categories").child(POST_CATEGORY).get().val()
         logger.info('Sucessfully got products list.')
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
@@ -217,15 +215,14 @@ def products_image_post():
 
     """PRODUCTS UPLOAD (POST) route. Tries to upload image for a product, returns Firebase JSON response."""
 
-    POST_USER_TOKEN = str(request.form.get('user_token'))
     POST_USER = str(request.form.get('seller_email'))
     POST_PRODUCT = str(request.form.get('product_name'))
     POST_IMAGE = request.files.get('product_image', '') # TODO
 
-    logger.info('Got PRODUCT IMAGE UPLOAD request with params: ' + POST_USER_TOKEN + "," + POST_PRODUCT +  "," + str(POST_IMAGE))
+    logger.info('Got PRODUCT IMAGE UPLOAD request with params: ' + "," + POST_PRODUCT +  "," + str(POST_IMAGE))
     
     try:
-        response = storage.child("products").child(POST_USER).child(POST_PRODUCT).put(POST_IMAGE, POST_USER_TOKEN)
+        response = storage.child("products").child(POST_USER).child(POST_PRODUCT).put(POST_IMAGE)
         logger.info('Sucessfully uploaded product image.')
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot upload product image.')
@@ -242,17 +239,35 @@ def products_image_get():
 
     """PRODUCTS IMAGE (GET) route. Tries to get image for a product, returns Firebase JSON response."""
 
-    POST_USER_TOKEN = str(request.form.get('user_token'))
     POST_USER = str(request.form.get('seller'))
     POST_PRODUCT = str(request.form.get('product_name'))
 
     try:
-        response = storage.child("products").child(POST_USER).child(POST_PRODUCT).get_url(POST_USER_TOKEN)
+        response = storage.child("products").child(POST_USER).child(POST_PRODUCT).get_url()
         logger.info('Sucessfully got product image.')
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get product image.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        return json.dumps(error)
+
+    response['code'] = "200"
+    return json.dumps(response)
+
+
+# users
+@app.route('/user', methods=['GET'])
+def user():
+    POST_EMAIL = str(request.form.get('email'))
+    logger.info('Got USER request with param: ' + POST_EMAIL)
+
+    try:
+        response = db.child("users").child(POST_EMAIL).get().val()
+        logger.info('Sucessfully got user info.')
+    except requests.exceptions.HTTPError as e:
+        logger.error('Cannot get user info.')
+        error_json = e.args[1]
+        error = json.loads(error_json)
         return json.dumps(error)
 
     response['code'] = "200"
