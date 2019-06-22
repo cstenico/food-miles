@@ -84,18 +84,19 @@ def signup_post():
         logger.error('Cannot signup.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        logger.error(error)
         return json.dumps(error)
     # create new user (db)
     try:
         db.child("users").child(POST_EMAIL).set(new_user_data)
         logger.info('Sucessfully inserted new user into database.')
+        return json.dumps(new_user)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot insert new user into database.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        logger.error(error)
         return json.dumps(error)
-
-    return json.dumps(new_user)
 
 
 @app.route('/login', methods=['POST'])
@@ -117,6 +118,7 @@ def login_post():
         logger.error('Cannot login.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        logger.error(error)
         return json.dumps(error)
 
 
@@ -128,7 +130,7 @@ def products_get():
 
     POST_SELLER = str(request.form.get('seller_email'))
 
-    logger.info('Got PRODUCTS GET request with params: ' +  "," + POST_SELLER)
+    logger.info('Got PRODUCTS GET request with params: ' + POST_SELLER)
     try:
         response = db.child("products").child(POST_SELLER).get().val()
         logger.info('Sucessfully got products list.')
@@ -138,6 +140,7 @@ def products_get():
         logger.error('Cannot get products list.')
         error_json = e.args[1]
         error = json.loads(error_json)
+        logger.error(error)
         return json.dumps(error) 
 
 
@@ -152,7 +155,7 @@ def products_post():
     POST_PRODUCT_DESCRIPTION = str(request.form.get('product_description'))
     POST_PRODUCT_CATEGORY = str(request.form.get('product_category'))
 
-    logger.info('Got PRODUCT POST request with params: ' + "," + SELLER_EMAIL +  "," + POST_PRODUCT_NAME + "," + POST_PRODUCT_PRICE + "," + POST_PRODUCT_DESCRIPTION + "," + POST_PRODUCT_CATEGORY)
+    logger.info('Got PRODUCT POST request with params: ' + SELLER_EMAIL +  "," + POST_PRODUCT_NAME + "," + POST_PRODUCT_PRICE + "," + POST_PRODUCT_DESCRIPTION + "," + POST_PRODUCT_CATEGORY)
 
     new_product = {
         "seller_email": SELLER_EMAIL,
@@ -170,6 +173,7 @@ def products_post():
         logger.error('Cannot insert product.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        logger.error(error)
         return json.dumps(error)
 
     try:
@@ -182,6 +186,7 @@ def products_post():
         logger.error('Cannot insert product into category.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        logger.error(error)
         return json.dumps(error)
 
 
@@ -199,6 +204,7 @@ def category_get():
         logger.error('Cannot get categories list.')
         error_json = e.args[1]
         error = json.loads(error_json)
+        logger.error(error)
         return json.dumps(error)
 
 
@@ -219,6 +225,7 @@ def category_products_get():
         logger.error('Cannot get products list.')
         error_json = e.args[1]
         error = json.loads(error_json)
+        logger.error(error)
         return json.dumps(error)
 
 
@@ -230,9 +237,9 @@ def products_image_post():
 
     POST_USER = str(request.form.get('seller_email'))
     POST_PRODUCT = str(request.form.get('product_name'))
-    POST_IMAGE = request.files.get('product_image', '') # TODO
+    POST_IMAGE = request.files.get('product_image', '')
 
-    logger.info('Got PRODUCT IMAGE UPLOAD request with params: ' + "," + POST_PRODUCT +  "," + str(POST_IMAGE))
+    logger.info('Got PRODUCT IMAGE UPLOAD request with params: ' + POST_PRODUCT +  "," + str(POST_IMAGE))
     
     try:
         response = storage.child("products").child(POST_USER).child(POST_PRODUCT).put(POST_IMAGE)
@@ -243,6 +250,7 @@ def products_image_post():
         logger.error('Cannot upload product image.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        logger.error(error)
         return json.dumps(error)
 
 
@@ -263,6 +271,7 @@ def products_image_get():
         logger.error('Cannot get product image.')
         error_json = e.args[1]
         error = json.loads(error_json)['error']
+        logger.error(error)
         return json.dumps(error)
 
 
@@ -281,6 +290,8 @@ def user():
         logger.error('Cannot get user info.')
         error_json = e.args[1]
         error = json.loads(error_json)
+
+        logger.error(error)
         return json.dumps(error)
 
 
