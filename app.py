@@ -20,12 +20,12 @@ logger.addHandler(handler)
 logger.info('Loading env variables...')
 load_dotenv()
 config = {
-    "apiKey": 'AIzaSyBSDWFOaSvEjCJFjzRDuwTxf_wSTSpwHz4',
-    "authDomain": 'food-miles-aa15d.firebaseapp.com',
-    "databaseURL": 'https://food-miles-aa15d.firebaseio.com',
-    "projectId": 'food-miles-aa15d',
-    "storageBucket": 'food-miles-aa15d.appspot.com',
-    "messagingSenderId": '546235423221'
+    "apiKey": os.environ.get("apiKey"),
+    "authDomain": os.environ.get("authDomain"),
+    "databaseURL": os.environ.get("databaseURL"),
+    "projectId": os.environ.get("projectId"),
+    "storageBucket": os.environ.get("storageBucket"),
+    "messagingSenderId": os.environ.get("messagingSenderId")
 }
 
 # initialize API
@@ -322,8 +322,8 @@ def search_get():
         print(response)
         logger.info('Sucessfully got products list.')
         #response['code'] = "200"
-        #print(json.dumps(response))
-        #return json.dumps(response)
+        print(json.dumps(response))
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
         error_json = e.args[1]
