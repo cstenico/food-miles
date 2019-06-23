@@ -10,7 +10,7 @@ export default class SearchResults extends Component {
   render() {
     return (
       <Content>
-				<Text>Hello search</Text>
+				<Text>{this.props.results}</Text>
 			</Content>
     )
   }

@@ -318,11 +318,11 @@ def search_get():
     POST_SEARCH = str(request.form.get('search'))
 
     try:
-        response = db.child("categories").get().val()
-        print(response)
+        categories = db.child("categories").get().val()
+        print(categories)
         #response['code'] = "200"
-        print(json.dumps(response))
-        return json.dumps(response)
+        print(json.dumps(categories))
+        return json.dumps(categories)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get products list.')
         error_json = e.args[1]

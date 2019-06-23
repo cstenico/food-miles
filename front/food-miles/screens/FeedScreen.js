@@ -33,7 +33,7 @@ export default class FeedScreen extends React.Component {
       let formData = new FormData();
       formData.append('search', this.state.search);
     
-      fetch('https://192.168.15.10:5000/search', {
+      fetch('https://food-miles-dev-filao.herokuapp.com/search', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -44,7 +44,7 @@ export default class FeedScreen extends React.Component {
       .then((data) => {
         return data;
       }).then((response) => {
-        res = response.json()
+        res = JSON.stringify(response)
         this.setState({search_results: res, results_screen: true})
       });
     }
