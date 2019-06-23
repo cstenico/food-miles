@@ -27,7 +27,7 @@ export default class HomeScreen extends React.Component {
     formData.append('address', params.address);
 
 
-    fetch('https://food-miles.herokuapp.com/signup', {
+    fetch('https://food-miles-dev-filao.herokuapp.com/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -97,6 +97,7 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('cpf')}
                       onBlur={props.handleBlur('cpf')}
                       value={props.values.cpf}
+                      keyboardType={'numeric'}
                     />
                   </Item>
                   <Item stackedLabel>
@@ -105,6 +106,7 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('phone')}
                       onBlur={props.handleBlur('phone')}
                       value={props.values.phone}
+                      keyboardType={'numeric'}
                     />
                   </Item>
                   <Item stackedLabel>
@@ -121,6 +123,7 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('email')}
                       onBlur={props.handleBlur('email')}
                       value={props.values.email}
+                      keyboardType={'email-address'}
                     />
                   </Item>
                   <Item stackedLabel last>
