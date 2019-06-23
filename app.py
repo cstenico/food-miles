@@ -310,12 +310,12 @@ def contact():
 
 
 # search route
-@app.route('/search', methods=['POST'])
+@app.route('/search', methods=['GET'])
 def search_get():
 
     """SEARCH (GET) route."""
 
-    POST_SEARCH = str(request.form.get('search'))
+    #POST_SEARCH = str(request.form.get('search'))
 
     """CATEGORIES (GET) route. Return all available categories."""
     logger.info('Got CATEGORY GET request')

@@ -184,7 +184,11 @@ export default class HomeScreen extends React.Component {
             <Formik
               initialValues={{ email: '', password: '', cpf: '', name: '', phone: '', address: '' }}
               onSubmit={(values, props) => {
-                this.postSignUp(values).then( response => {
+                this.props.navigation.navigate('Main', {
+                  email: values.email,
+                  name: 'Camila',
+                });
+                /*this.postSignUp(values).then( response => {
                   response.json();
                   console.log("POST RESPONSE: ", JSON.stringify(response));
 
@@ -206,7 +210,7 @@ export default class HomeScreen extends React.Component {
                       {cancelable: false},
                     );
                   }
-                });
+                });*/
               }}
             >
               {props => (
