@@ -243,7 +243,6 @@ def products_image_get():
 
     POST_USER = str(request.form.get('seller'))
     POST_PRODUCT = str(request.form.get('product_name'))
-
     try:
         response = storage.child("products").child(POST_USER).child(POST_PRODUCT).get_url()
         logger.info('Sucessfully got product image.')
