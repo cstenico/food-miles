@@ -68,7 +68,6 @@ export default class HomeScreen extends React.Component {
               >
                 {props => (
                   <Content contentContainerStyle ={{paddingHorizontal: 10}}>
-                    <ProfilePictureUploader />
                     <Item stackedLabel>
                       <Label>Email</Label>
                       <Input
