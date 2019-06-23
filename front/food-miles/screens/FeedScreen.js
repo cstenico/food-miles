@@ -23,7 +23,28 @@ export default class FeedScreen extends React.Component {
 
   updateSearch = search => {
     this.setState({ search });
+    this.getSearch();
   };
+
+  getSearch(){
+    let formData = new FormData();
+    formData.append('search', this.state.search);
+  
+    fetch('https://192.168.15.10:5000/search', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData
+    })
+    .then((data) => {
+      return data;
+    }).then((response) => {
+      res = response.json()
+      this.setState({search_results: res, results_screen: true})
+    });
+  }
 
 
   render() {
@@ -44,29 +65,16 @@ export default class FeedScreen extends React.Component {
               source={ require('../assets/images/profilepic.png')}
               style = {styles.userIcon}
             /> 
-  
-            <Formik
-              initialValues={{ search: '' }}
-              onSubmit={(values, props) => {
-                this.props.navigation.navigate('Main', {
-                  email: values.email,
-                  name: 'User',
-                });
-              }}
-            >
-              {props => (
-                <SearchBar
-                  round
-                  searchIcon={{ size: 24 }}
-                  placeholder="Buscar produtos e lojinhas"
-                  containerStyle={styles.searchContainer}
-                  inputStyle={[styles.text,{fontSize: 12}]}
-                  inputContainerStyle={styles.searchInputContainer}
-                  onChangeText={props.handleChange('search')}
-                  value={props.values.search}
-                />
-              )}
-            </Formik>
+            <SearchBar
+              round
+              searchIcon={{ size: 24 }}
+              placeholder="Buscar produtos e lojinhas"
+              containerStyle={styles.searchContainer}
+              inputStyle={[styles.text,{fontSize: 12}]}
+              inputContainerStyle={styles.searchInputContainer}
+              onChangeText={this.updateSearch}
+              value={this.state.search}
+            />
             <Content>
                 <SearchResults results={this.state.search_results} />
             </Content>
@@ -97,7 +105,6 @@ export default class FeedScreen extends React.Component {
               onChangeText={this.updateSearch}
               value={this.state.search}
             />
-          )}
           </Content>
         </View>
       );
