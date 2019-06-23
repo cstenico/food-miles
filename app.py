@@ -328,7 +328,10 @@ def search_get():
         response = db.child("categories").get().val()
         for key in response:
             if POST_SEARCH in key:
-                categories.append(response[key])
+                #categories.append('{ \'name\': \'' + key + '\', \'products\' :' + str(response[key]) + '}' )
+                categories.append(key)
+
+        print(response)
 
         for categorie in response:
             for product in response[categorie]:
@@ -337,6 +340,9 @@ def search_get():
 
         search_result.append(categories)
         search_result.append(products)
+
+        print(search_result)
+
 
         return json.dumps(search_result)
     except requests.exceptions.HTTPError as e:

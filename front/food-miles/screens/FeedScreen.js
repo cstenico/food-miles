@@ -27,7 +27,7 @@ export default class FeedScreen extends React.Component {
   };
 
   getSearch(){
-    if(this.state.search == ''){
+    if(this.state.search.length < 3){
       this.setState({results_screen: false})
     }else{    
       fetch('http://192.168.15.10:5000/search?search=' + this.state.search)
