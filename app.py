@@ -320,7 +320,6 @@ def search_get():
     try:
         response = db.child("categories").get().val()
         print(response)
-        logger.info('Sucessfully got products list.')
         #response['code'] = "200"
         print(json.dumps(response))
         return json.dumps(response)
