@@ -26,7 +26,6 @@ export default class HomeScreen extends React.Component {
     formData.append('password', params.password);
     formData.append('address', params.address);
 
-
     fetch('https://food-miles-dev-filao.herokuapp.com/signup', {
       method: 'POST',
       headers: {
@@ -57,11 +56,8 @@ export default class HomeScreen extends React.Component {
               initialValues={{ email: '', password: '', cpf: '', name: '', phone: '', address: '' }}
               onSubmit={(values, props) => {
                 this.postSignUp(values).then( response => {
-                  response.json();
-                  console.log("POST RESPONSE: ", JSON.stringify(response));
 
-                  res = response.body.json()
-                  if (res.code == 200){
+                  if (response){
                     this.props.navigation.navigate('Main', {
                       email: values.email,
                       name: values.name,
