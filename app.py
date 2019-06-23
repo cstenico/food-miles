@@ -317,18 +317,18 @@ def search_get():
 
     POST_SEARCH = str(request.form.get('search'))
 
+    """CATEGORIES (GET) route. Return all available categories."""
+    logger.info('Got CATEGORY GET request')
     try:
-        categories = db.child("categories").get().val()
-        print(categories)
-        #response['code'] = "200"
-        print(json.dumps(categories))
-        return json.dumps(categories)
+        response = db.child("categories").get().val()
+        logger.info('Sucessfully got categories list.')
+        return json.dumps(response)
     except requests.exceptions.HTTPError as e:
-        logger.error('Cannot get products list.')
+        logger.error('Cannot get categories list.')
         error_json = e.args[1]
         error = json.loads(error_json)
         logger.error(error)
-        return json.dumps(error) 
+        return json.dumps(error)
 
 
 if __name__ == '__main__':
