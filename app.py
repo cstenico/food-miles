@@ -313,16 +313,32 @@ def contact():
 @app.route('/search', methods=['GET'])
 def search_get():
 
+    categories = []
+    products = []
+
+    search_result = []
+
     """SEARCH (GET) route."""
 
-    #POST_SEARCH = str(request.form.get('search'))
+    POST_SEARCH = str(request.args.get('search'))
+    logger.info('Got search request with key: ' + POST_SEARCH)
 
-    """CATEGORIES (GET) route. Return all available categories."""
-    logger.info('Got CATEGORY GET request')
+
     try:
         response = db.child("categories").get().val()
-        logger.info('Sucessfully got categories list.')
-        return json.dumps(response)
+        for key in response:
+            if POST_SEARCH in key:
+                categories.append(response[key])
+
+        for categorie in response:
+            for product in response[categorie]:
+                if POST_SEARCH in product:
+                    products.append(response[categorie][product])
+
+        search_result.append(categories)
+        search_result.append(products)
+
+        return json.dumps(search_result)
     except requests.exceptions.HTTPError as e:
         logger.error('Cannot get categories list.')
         error_json = e.args[1]
