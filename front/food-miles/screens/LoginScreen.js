@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
+import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
 
 export default class HomeScreen extends React.Component {
@@ -22,7 +22,7 @@ export default class HomeScreen extends React.Component {
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values, props) => {
-                    fetch('https://food-miles.herokuapp.com/login', {
+                    /*fetch('https://food-miles.herokuapp.com/login', {
                       method: 'POST',
                       headers: {
                         Accept: 'application/json',
@@ -38,12 +38,12 @@ export default class HomeScreen extends React.Component {
                       return data;
                     }).then( response => {
                       response.json();
-                      if (response.status == 200){
+                      if (response.status == 200){*/
                         this.props.navigation.navigate('Main', {
                           email: values.email,
                           name: 'User',
                         });
-                      }else{
+                      /*}else{
                         Alert.alert(
                           'Alert Title',
                           'My Alert Msg',
@@ -59,7 +59,7 @@ export default class HomeScreen extends React.Component {
                           {cancelable: false},
                         );
                       }
-                    });
+                    });*/
                 }}
               >
                 {props => (
@@ -70,6 +70,7 @@ export default class HomeScreen extends React.Component {
                         onChangeText={props.handleChange('email')}
                         onBlur={props.handleBlur('email')}
                         value={props.values.email}
+                        keyboardType={'email-address'}
                       />
                     </Item>
                     <Item stackedLabel last>

@@ -82,6 +82,7 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('cpf')}
                       onBlur={props.handleBlur('cpf')}
                       value={props.values.cpf}
+                      keyboardType={'numeric'}
                     />
                   </Item>
                   <Item stackedLabel>
@@ -90,6 +91,7 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('phone')}
                       onBlur={props.handleBlur('phone')}
                       value={props.values.phone}
+                      keyboardType={'numeric'}
                     />
                   </Item>
                   <Item stackedLabel>
@@ -106,6 +108,7 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('email')}
                       onBlur={props.handleBlur('email')}
                       value={props.values.email}
+                      keyboardType={'email-address'}
                     />
                   </Item>
                   <Item stackedLabel last>
@@ -115,6 +118,7 @@ export default class HomeScreen extends React.Component {
                       onBlur={props.handleBlur('password')}
                       value={props.values.password}
                       secureTextEntry={true}
+                      onSubmitEditing={props.handleSubmit}
                     />
                   </Item>
                     <TouchableOpacity
