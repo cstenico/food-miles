@@ -2,7 +2,7 @@ import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
 import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
 import { Formik} from 'formik';
-import { SearchBar } from 'react-native-elements';
+import { SearchBar, ThemeProvider } from 'react-native-elements';
 import SearchResults from '../components/SearchResults'
 
 
@@ -27,23 +27,27 @@ export default class FeedScreen extends React.Component {
   };
 
   getSearch(){
-    let formData = new FormData();
-    formData.append('search', this.state.search);
-  
-    fetch('https://192.168.15.10:5000/search', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'multipart/form-data',
-      },
-      body: formData
-    })
-    .then((data) => {
-      return data;
-    }).then((response) => {
-      res = response.json()
-      this.setState({search_results: res, results_screen: true})
-    });
+    if(this.state.search == ''){
+      this.setState({results_screen: false})
+    }else{
+      let formData = new FormData();
+      formData.append('search', this.state.search);
+    
+      fetch('https://192.168.15.10:5000/search', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'multipart/form-data',
+        },
+        body: formData
+      })
+      .then((data) => {
+        return data;
+      }).then((response) => {
+        res = response.json()
+        this.setState({search_results: res, results_screen: true})
+      });
+    }
   }
 
 
