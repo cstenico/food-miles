@@ -2,7 +2,6 @@ import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
 import {ActivityIndicator,StatusBar,Share,Clipboard,View, Image, ImageBackground,ScrollView, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
-import axios from 'axios';
 import { Constants, ImagePicker, Permissions } from 'expo';
 
 
