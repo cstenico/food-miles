@@ -8,9 +8,10 @@ export default class SearchResults extends Component {
 		super(props);
   }
   render() {
+    console.log(this.props.results)
     return (
       <Content>
-				<Text>{this.props.results}</Text>
+				<Text>hero</Text>
 			</Content>
     )
   }
