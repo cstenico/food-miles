@@ -1,18 +1,47 @@
 import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground,ScrollView, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, KeyboardAvoidingView} from 'react-native';
+import {ActivityIndicator,StatusBar,Share,Clipboard,View, Image, ImageBackground,ScrollView, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
 import axios from 'axios';
+import { Constants, ImagePicker, Permissions } from 'expo';
 
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+  state = {
+    image: null,
+    uploading: false,
+    uri : '',
+  };
+
+  postSignUp(params){
+
+    let formData = new FormData();
+    formData.append('name', params.name);
+    formData.append('cpf', params.cpf);
+    formData.append('email', params.email);
+    formData.append('telephone', params.phone);
+    formData.append('password', params.password);
+    formData.append('address', params.address);
 
 
+    fetch('https://food-miles.herokuapp.com/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData
+    })
+    .then((data) => {
+      return data;
+    })
+  }
 
   render() {
+
     return (
     <ScrollView>
       <KeyboardAvoidingView behavior='padding'>
@@ -27,26 +56,12 @@ export default class HomeScreen extends React.Component {
             <Formik
               initialValues={{ email: '', password: '', cpf: '', name: '', phone: '', address: '' }}
               onSubmit={(values, props) => {
-                fetch('https://food-miles.herokuapp.com/signup', {
-                  method: 'POST',
-                  headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    name: values.name,
-                    cpf: values.cpf,
-                    email: values.email,
-                    phone: values.phone,
-                    password: values.password,
-                    address: values.address
-                  })
-                }).then((data) => {
-                  console.log("POST RESPONSE: ", JSON.stringify(data));
-                  return data;
-                }).then( response => {
+                this.postSignUp(values).then( response => {
                   response.json();
-                  if (response.status == 200){
+                  console.log("POST RESPONSE: ", JSON.stringify(response));
+
+                  res = response.body.json()
+                  if (res.code == 200){
                     this.props.navigation.navigate('Main', {
                       email: values.email,
                       name: values.name,
@@ -82,7 +97,6 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('cpf')}
                       onBlur={props.handleBlur('cpf')}
                       value={props.values.cpf}
-                      keyboardType={'numeric'}
                     />
                   </Item>
                   <Item stackedLabel>
@@ -91,7 +105,6 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('phone')}
                       onBlur={props.handleBlur('phone')}
                       value={props.values.phone}
-                      keyboardType={'numeric'}
                     />
                   </Item>
                   <Item stackedLabel>
@@ -108,7 +121,6 @@ export default class HomeScreen extends React.Component {
                       onChangeText={props.handleChange('email')}
                       onBlur={props.handleBlur('email')}
                       value={props.values.email}
-                      keyboardType={'email-address'}
                     />
                   </Item>
                   <Item stackedLabel last>
@@ -118,7 +130,6 @@ export default class HomeScreen extends React.Component {
                       onBlur={props.handleBlur('password')}
                       value={props.values.password}
                       secureTextEntry={true}
-                      onSubmitEditing={props.handleSubmit}
                     />
                   </Item>
                     <TouchableOpacity
@@ -166,5 +177,42 @@ var styles = StyleSheet.create({
   }, 
   logo: {
     alignContent: 'center',
+  },
+  exampleText: {
+    fontSize: 20,
+    marginBottom: 20,
+    marginHorizontal: 15,
+    textAlign: 'center',
+  },
+  maybeRenderUploading: {
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'center',
+  },
+  maybeRenderContainer: {
+    borderRadius: 3,
+    elevation: 2,
+    marginTop: 30,
+    shadowColor: 'rgba(0,0,0,1)',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 4,
+      width: 4,
+    },
+    shadowRadius: 5,
+    width: 250,
+  },
+  maybeRenderImageContainer: {
+    borderTopLeftRadius: 3,
+    borderTopRightRadius: 3,
+    overflow: 'hidden',
+  },
+  maybeRenderImage: {
+    height: 250,
+    width: 250,
+  },
+  maybeRenderImageText: {
+    paddingHorizontal: 10,
+    paddingVertical: 10,
   }
 });
