@@ -5,7 +5,7 @@ import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left
 export default class FoodCard extends Component {
   render() {
     return (
-      <Card style={styles.card}>
+      <Card styles={{ card: { backgroundColor: '#7FA99B' }}}>
         <CardItem>
           <Left>
             <Text style={styles.textTitle}>{this.props.item.name}</Text>
@@ -29,7 +29,7 @@ export default class FoodCard extends Component {
           <Body>
             <Right>
             <Image
-              source={{uri: this.props.item.image}}
+              source={{uri: this.props.item.picture_url}}
               style={styles.image}/>
             </Right>
             <Text style={styles.textBody}>

@@ -1,12 +1,31 @@
 import React from 'react';
 import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
+import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  postLogin(params){
+    let formData = new FormData();
+    formData.append('email', params.email);
+    formData.append('password', params.password);
+
+
+    fetch('https://food-miles.herokuapp.com/login', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData
+    })
+    .then((data) => {
+      return data;
+    })
+  }
 
   render() {
     return (
@@ -22,44 +41,29 @@ export default class HomeScreen extends React.Component {
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values, props) => {
-                    fetch('https://food-miles.herokuapp.com/login', {
-                      method: 'POST',
-                      headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify({
+                  this.postLogin(values).then( response => {
+                    response.json();
+                    console.log("POST RESPONSE: ", JSON.stringify(response));
+
+                    res = response.body.json()
+                    if (res.code == 200){
+                      this.props.navigation.navigate('Main', {
                         email: values.email,
-                        password: values.password,
-                      })
-                      
-                    }).then((data) => {
-                      console.log("POST RESPONSE: " , JSON.stringify(data));
-                      return data;
-                    }).then( response => {
-                      response.json();
-                      if (response.status == 200){
-                        this.props.navigation.navigate('Main', {
-                          email: values.email,
-                          name: 'User',
-                        });
-                      }else{
-                        Alert.alert(
-                          'Alert Title',
-                          'My Alert Msg',
-                          [
-                            {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-                            {
-                              text: 'Cancel',
-                              onPress: () => console.log('Cancel Pressed'),
-                              style: 'cancel',
-                            },
-                            {text: 'OK', onPress: () => console.log('OK Pressed')},
-                          ],
-                          {cancelable: false},
-                        );
-                      }
-                    });
+                        name: 'Foo',
+                      });
+                    }else{
+                      Alert.alert(
+                        'Alert Title',
+                        'My Alert Msg',
+                        [
+                          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
+                          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel',},
+                          {text: 'OK', onPress: () => console.log('OK Pressed')},
+                        ],
+                        {cancelable: false},
+                      );
+                    }
+                  });
                 }}
               >
                 {props => (
@@ -83,10 +87,6 @@ export default class HomeScreen extends React.Component {
                     </Item>
                     <Content contentContainerStyle ={{
                     paddingTop: 60}}>
-                      <Text style={styles.link}
-                            onPress={() => LinkingIOS.openURL('http://google.com')}>
-                        Esqueceu sua senha? Clique Aqui!
-                      </Text>
                       <TouchableOpacity
                           style={styles.submitButton}
                           onPress={props.handleSubmit}
