@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage} from 'react-native';
+import { Input, Item, Right, Thumbnail, Body, ListItem, StyleProvider, Container, Header, Content, Card, CardItem, Icon, Left} from 'native-base';
+import {View, ScrollView,  Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native';
 import { Formik} from 'formik';
 import { SearchBar, ThemeProvider } from 'react-native-elements';
 import SearchResults from '../components/SearchResults'
-
+import CarouselScreen from './CarouselScreen'
 
 export default class FeedScreen extends React.Component {
   static navigationOptions = {
@@ -30,7 +30,7 @@ export default class FeedScreen extends React.Component {
     if(this.state.search.length < 3){
       this.setState({results_screen: false})
     }else{    
-      fetch('http://192.168.15.10:5000/search?search=' + this.state.search)
+      fetch('https://food-miles-dev-filao.herokuapp.com/search?search=' + this.state.search)
       .then((data) => {
         return data.json();
       }).then((response) => {
@@ -48,16 +48,22 @@ export default class FeedScreen extends React.Component {
     if(this.state.results_screen){
       return (
         <View style={ styles.container }>
-          <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
-            <Image
-              source={ require('../assets/images/pretzel-smallpp.png')}
-              style = {[{marginLeft: 5}]}
-            />
-            <H1 style={[styles.text,{position: "absolute", top: 60, left: 80, fontSize: 15, color: '#56666a'}]}>Ola, {username}</H1>
-            <Image
-              source={ require('../assets/images/profilepic.png')}
-              style = {styles.userIcon}
-            /> 
+          <Content contentContainerStyle ={{paddingTop: 10, paddingHorizontal: 10}}>
+            <View style={styles.v5}>
+              <Text> </Text>
+            </View>
+            <ListItem transparent avatar>
+              <Left>
+                  <Thumbnail source={{ uri: 'https://i.imgur.com/WJOAW4E.png' }} />
+              </Left>
+              <Body>
+                  <Text> </Text>
+                  <Text note> </Text>
+              </Body>
+              <Right>
+                  <Thumbnail source={{ uri: 'https://i.imgur.com/vlNOtMM.png' }} />
+              </Right>
+            </ListItem>
             <SearchBar
               round
               searchIcon={{ size: 24 }}
@@ -78,15 +84,21 @@ export default class FeedScreen extends React.Component {
       return (
         <View style={ styles.container }>
           <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
-            <Image
-              source={ require('../assets/images/pretzel-smallpp.png')}
-              style = {[{marginLeft: 5}]}
-            />
-            <H1 style={[styles.text,{position: "absolute", top: 60, left: 80, fontSize: 15, color: '#56666a'}]}>Ola, {username}</H1>
-            <Image
-              source={ require('../assets/images/profilepic.png')}
-              style = {styles.userIcon}
-            /> 
+            <View style={styles.v5}>
+              <Text> </Text>
+            </View>
+            <ListItem transparent avatar>
+              <Left>
+                  <Thumbnail source={{ uri: 'https://i.imgur.com/WJOAW4E.png' }} />
+              </Left>
+              <Body>
+                  <Text> </Text>
+                  <Text note> </Text>
+              </Body>
+              <Right>
+                  <Thumbnail source={{ uri: 'https://i.imgur.com/vlNOtMM.png' }} />
+              </Right>
+            </ListItem>
   
             <SearchBar
               round
@@ -98,7 +110,9 @@ export default class FeedScreen extends React.Component {
               onChangeText={this.updateSearch}
               value={this.state.search}
             />
+
           </Content>
+          <CarouselScreen />
         </View>
       );
     }
@@ -154,5 +168,90 @@ var styles = StyleSheet.create({
   },
   searchInputContainer: {
     backgroundColor: '#bdd2c6'
-  }
+  },
+v1: {
+    height: 80,
+    width: 80,
+    backgroundColor: '#F4F7ED',
+},
+v2: {
+    flex: 1,
+    color: '#7FA99B',
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+v4: {
+    height: 44,
+    width: 385,
+    backgroundColor: '#7FA99B',
+    borderRadius: 30,
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+},
+v5: {
+    color: '#7FA99B',
+},
+v6: {
+    height: 120,
+    width: 120,
+    borderColor: '#FFD54D',
+    borderRadius: 90,
+    margin: 30,
+    borderWidth: 4,
+},
+v7: {
+    height: 80,
+    width: 80,
+},
+MainContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+
+  GooglePlusStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#dc4e41',
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    height: 40,
+    width: 220,
+    borderRadius: 5,
+    margin: 5,
+  },
+
+  FacebookStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#485a96',
+    borderWidth: 0.5,
+    borderColor: '#fff',
+    height: 40,
+    width: 220,
+    borderRadius: 5,
+    margin: 5,
+  },
+
+  ImageIconStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'stretch',
+  },
+
+  TextStyle: {
+    color: '#fff',
+    marginBottom: 4,
+    marginRight: 20,
+  },
+
+  SeparatorLine: {
+    backgroundColor: '#fff',
+    width: 1,
+    height: 40,
+  },
 });
