@@ -48,7 +48,7 @@ export default class FeedScreen extends React.Component {
     if(this.state.results_screen){
       return (
         <View style={ styles.container }>
-          <Content contentContainerStyle ={{paddingTop: 10, paddingHorizontal: 10}}>
+          <Content contentContainerStyle ={{paddingTop: 10,paddingHorizontal: 10}}>
             <View style={styles.v5}>
               <Text> </Text>
             </View>
@@ -83,7 +83,7 @@ export default class FeedScreen extends React.Component {
     }else{
       return (
         <View style={ styles.container }>
-          <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
+          <Content contentContainerStyle ={{paddingTop: 10, paddingHorizontal: 10}}>
             <View style={styles.v5}>
               <Text> </Text>
             </View>
