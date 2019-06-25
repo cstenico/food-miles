@@ -23,11 +23,7 @@ export default class FeedScreen extends React.Component {
 
   updateSearch = search => {
     this.setState({ search });
-    this.getSearch();
-  };
-
-  getSearch(){
-    if(this.state.search.length < 3){
+    if(this.state.search.length <= 3){
       this.setState({results_screen: false})
     }else{    
       fetch('https://food-miles-dev-filao.herokuapp.com/search?search=' + this.state.search)
@@ -37,8 +33,7 @@ export default class FeedScreen extends React.Component {
         this.setState({search_results: response, results_screen: true})
       });
     }
-  }
-
+  };
 
   render() {
     const { navigation } = this.props;

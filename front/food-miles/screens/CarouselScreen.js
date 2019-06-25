@@ -60,7 +60,6 @@ export default class CarouselScreen extends React.Component {
 
     render() {
         return (
-            <View style={styles.container}>
 
                 <ScrollView horizontal>
                     <View>
@@ -104,7 +103,6 @@ export default class CarouselScreen extends React.Component {
                     </View>                    
                 </ScrollView>
                 
-            </View>
         );
     }
 }
