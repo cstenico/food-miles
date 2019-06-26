@@ -8,7 +8,7 @@ import {
     TouchableOpacity,
     View,
 } from 'react-native';
-import { Input, Item, Button, StyleProvider, Container, Header, Content, Card, CardItem, Icon, Left} from 'native-base';
+import { Input, Item, Button, StyleProvider, Container, Header, Form, Picker, Content, Card, CardItem, Icon, Left} from 'native-base';
 import axios from 'axios';
 import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation';
 
@@ -27,12 +27,11 @@ export default class SignupProduct extends React.Component {
             product_price: '',
             product_description: '',
             product_category: '',
+            selected: undefined,
         }
     }
 
     onLogin = () => {
-
-        console.log("name: " + String(this.state.name) + "cpf: " + String(this.state.cpf) + "email: " + String(this.state.email) + " password: " + String(this.state.password));
 
         axios.post('https://food-miles.herokuapp.com/products', {
             user_id: this.state.user_id,
@@ -50,9 +49,21 @@ export default class SignupProduct extends React.Component {
         });
     }
 
+    onValueChange = () => {
+
+        axios.post('https://food-miles.herokuapp.com/products', {
+            product_category: this.state.product_category,
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
     render() {
         return (
-            //OS COMPONENTES DA TELA TEM QUE SER CRIADO AQUI DENTRO
             <View style={styles.container}>
 
                 <View style={styles.v5}>
@@ -64,49 +75,67 @@ export default class SignupProduct extends React.Component {
                     <Image source={{uri: 'https://i.imgur.com/e54hYDo.png'}} style={{height: 200, width: 200}}/>
                 </View>    
 
-                <View style={{ padding: 20, justifyContent: 'center', alignItems: 'center'}}>
-                    <Item>
+                <View style={{margin: 20}}>
+                    <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ user_id: value }) }}
                             placeholder='Identificação do Usuario' />
                     </Item>
-                    <Item>
+                    <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ user_email: value }) }}
                             placeholder='Email' />
                     </Item>
-                    <Item>
+                    <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ product_name: value }) }}
                             placeholder='Nome do Produto' />
                     </Item>
-                    <Item>
+                    <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ product_price: value }) }}
                             placeholder='Preço' />
                     </Item>
-                    <Item>
+                    <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ product_description: value }) }}
                             placeholder='Descriçao do Produto' />
                     </Item>
-                    <Item>
-                        <Input
-                            onChangeText={(value) => { this.setState({ product_category: value }) }}
-                            placeholder='Categoria' />
-                    </Item>
+                    <Form>
+                        <Item picker>
+                          <Picker
+                            mode="dropdown"
+                            iosIcon={<Icon name="arrow-down" />}
+                            style={{ width: 151 }}
+                            placeholder="Selecione a categoria do seu produto"
+                            placeholderStyle={{ color: "#7FA99B" }}
+                            placeholderIconColor="#007aff"
+                            selectedValue={this.state.selected}
+                            onValueChange={(value) => { this.setState({ product_description: value }) }}
+                          >
+                            <Picker.Item label="Vegetais" value="Vegetais" />
+                            <Picker.Item label="Frutas" value="Frutas" />
+                            <Picker.Item label="Salgados" value="Salgados" />
+                            <Picker.Item label="Doces" value="Doces" />
+                            <Picker.Item label="Feito em Casa" value="Feito em Casa" />
+                          </Picker>
+                        </Item>
+                    </Form>
                 </View>
 
-                <View style={styles.v4}> 
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <Button transparent style={{ padding: null }} 
-                            onPress={() => {this.onLogin();}}>
-                            <Text>CADASTRAR PRODUTO</Text>
-                        </Button>
-                    </View>
+                <View style={styles.v4}>
+                    <Button transparent style={{ padding: 151 }}
+                        onPress={() => {
+                            this.props.navigation.dispatch(StackActions.reset({
+                                index: 0,
+                                actions: [
+                                    NavigationActions.navigate({ routeName: 'Carousel' })
+                                ],
+                            }))
+                        }}>
+                        <Text>CADASTRAR</Text>
+                    </Button>
                 </View>
-
-                <Text style={{ fontSize: 50 }}>  {this.state.nome}  </Text>
 
             </View>
         );
