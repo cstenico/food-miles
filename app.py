@@ -352,6 +352,131 @@ def search_get():
         logger.error(error)
         return json.dumps(error)
 
+@app.route('/contact', methods=['GET'])
+def contact():
+
+    """CONTACT route. Generates and returns Whatsapp Click to Chat link."""
+
+    POST_TELEPHONE = str(request.form.get('telephone'))
+    POST_PRODUCT_NAME = str(request.form.get('product_name'))
+    POST_SELLER_NAME = str(request.form.get('seller_name'))
+
+    logger.info('Got CONTACT request with params: ' + POST_TELEPHONE + "," + POST_PRODUCT_NAME +  "," + POST_SELLER_NAME)
+
+    text = 'Olá ' + POST_SELLER_NAME + '! Te vi no Food Miles e estou interessado no produto ' + POST_PRODUCT_NAME
+    return "https://wa.me/" + POST_TELEPHONE + "?text=" + text
+
+
+# search route
+@app.route('/search', methods=['GET'])
+def search_get():
+
+    categories = []
+    products = []
+
+    search_result = []
+
+    """SEARCH (GET) route."""
+
+    POST_SEARCH = str(request.args.get('search'))
+    logger.info('Got search request with key: ' + POST_SEARCH)
+
+
+    try:
+        response = db.child("categories").get().val()
+        for key in response:
+            if POST_SEARCH in key:
+                categories.append(key)
+
+        print(response)
+
+        for categorie in response:
+            for product in response[categorie]:
+                if POST_SEARCH in product:
+                    products.append(response[categorie][product])
+
+        search_result.append(categories)
+        search_result.append(products)
+
+        print(search_result)
+
+
+        return json.dumps(search_result)
+    except requests.exceptions.HTTPError as e:
+        logger.error('Cannot get categories list.')
+        error_json = e.args[1]
+        error = json.loads(error_json)
+        logger.error(error)
+        return json.dumps(error)
+
+@app.route('/store', methods=['GET'])
+def store():
+    products = []
+
+    """STORE (GET) route."""
+
+    POST_SEARCH = str(request.args.get('seller_email'))
+    logger.info('Got search request with key: ' + POST_SEARCH)
+
+    try:
+        response = db.child("categories").get()
+
+        output_dict = json.loads(json.dumps(response.val()))
+
+        response2 = db.child("categories").get().val()
+
+        for categorie in response2:
+            for product in response2[categorie]:
+                if POST_SEARCH in output_dict[categorie][product]['seller_email']:
+                    products.append(output_dict[categorie][product])
+        print(products)
+
+        return json.dumps(products)
+    except requests.exceptions.HTTPError as e:
+        logger.error('Cannot get categories list.')
+        error_json = e.args[1]
+        error = json.loads(error_json)
+        logger.error(error)
+        return json.dumps(error)
+
+@app.route('/stores', methods=['GET'])
+def stores():
+    products = []
+
+
+    sellers  ={}
+    i = 0
+    """STORES (GET) route."""
+
+    try:
+        users = db.child("users").get()
+        users_dict = json.loads(json.dumps(users.val()))
+
+        response = db.child("categories").get()
+        output_dict = json.loads(json.dumps(response.val()))
+
+        response2 = db.child("categories").get().val()
+
+        for user in users_dict:
+            for categorie in response2:
+                for product in response2[categorie]:
+                    if users_dict[user]['email'] in output_dict[categorie][product]['seller_email']:
+                        products.append(output_dict[categorie][product])
+            if products:
+                sellers[i] = products
+                i = i + 1
+                products = []
+        print(sellers)
+
+        return json.dumps(sellers)
+    except requests.exceptions.HTTPError as e:
+        logger.error('Cannot get categories list.')
+        error_json = e.args[1]
+        error = json.loads(error_json)
+        logger.error(error)
+        return json.dumps(error)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
