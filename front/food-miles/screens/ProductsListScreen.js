@@ -88,7 +88,7 @@ export default class ProductsListScreen extends React.Component {
             </Button>
           </Left>
           <Body style={styles.v2}>
-            <H1 style={styles.v1}>{this.state.category}</H1>
+            <H1 style={styles.v1}>Produtos</H1>
           </Body>
           <Right>
             <Image source={{uri: 'https://i.imgur.com/WJOAW4E.png'}} style={{height: 60, width: 40}}/>
