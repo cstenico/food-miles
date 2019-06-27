@@ -25,8 +25,31 @@ export default class ProductsListScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
-      category: this.props.navigation.getParam('category', ''),
-      products_list: this.props.navigation.getParam('products_list', {}),
+      //category: this.props.navigation.getParam('category', ''),
+      category: 'Frutas',
+      products_list: {
+        "Laranja" : {
+          "category" : "Frutas",
+          "description" : "Laranja muito boa!",
+          "name" : "Laranja",
+          "picture_url" : "https://img.estadao.com.br/thumbs/640/resources/jpg/9/8/1527684459989.jpg",
+          "price" : "10",
+          "seller_email" : "kasama@orange.com",
+          "seller_name" : "Justus",
+          "seller_picture" : "https://pbs.twimg.com/profile_images/1035371242881265664/jwbIlX-2.jpg"
+        },
+        "Maçã" : {
+          "category" : "Frutas",
+          "description" : "Maçã deliciosa!",
+          "name" : "Maçã",
+          "picture_url" : "https://img.itdg.com.br/tdg/images/blog/uploads/2017/05/shutterstock_290834552.jpg",
+          "price" : "100",
+          "seller_email" : "kasama@apple.com",
+          "seller_name" : "Justus",
+          "seller_picture" : "https://pbs.twimg.com/profile_images/1035371242881265664/jwbIlX-2.jpg"
+        }
+      }
+      ,
       seller_name: '',
       seller_picture: '',
       picture_url: '',

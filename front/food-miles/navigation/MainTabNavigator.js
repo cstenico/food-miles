@@ -4,11 +4,13 @@ import { createStackNavigator, createBottomTabNavigator } from 'react-navigation
 
 import TabBarIcon from '../components/TabBarIcon';
 import FeedScreen from '../screens/FeedScreen';
+import ShopScreen from '../screens/ShopScreenExample';
+import NewProductScreen from '../screens/SignupProduct';
+
+
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
-import ShopScreen from '../screens/ShopScreenExample';
 import ProductsList from '../screens/ProductsListScreen';
-import NewProductScreen from '../screens/SignupProduct';
 import JustusScreen from '../screens/JustusScreen';
 import CarousselScreen from '../screens/CarouselScreen';
 
@@ -30,13 +32,12 @@ FeedStack.navigationOptions = {
   ),
 };
 
-
-const JustusStack = createStackNavigator({
-  Justus: JustusScreen,
+const ShopStack = createStackNavigator({
+  Shop: {screen: ShopScreen},
 });
 
-JustusStack.navigationOptions = {
-  tabBarLabel: 'Justus',
+ShopStack.navigationOptions = {
+  tabBarLabel: 'Minha Loja',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -50,7 +51,7 @@ JustusStack.navigationOptions = {
 };
 
 const NewProductStack = createStackNavigator({
-  NewProduct: NewProductScreen,
+  NewProduct: {screen: NewProductScreen},
 });
 
 NewProductStack.navigationOptions = {
@@ -67,13 +68,12 @@ NewProductStack.navigationOptions = {
   ),
 };
 
-
-const ProductStack = createStackNavigator({
-  ProductsList: ProductsList,
+const JustusStack = createStackNavigator({
+  Justus: {screen: JustusScreen},
 });
 
-ProductStack.navigationOptions = {
-  tabBarLabel: 'Product',
+JustusStack.navigationOptions = {
+  tabBarLabel: 'Lojas',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -86,50 +86,28 @@ ProductStack.navigationOptions = {
   ),
 };
 
-const LinksStack = createStackNavigator({
-  Links: LinksScreen,
+const ProductsListStack = createStackNavigator({
+  Products: {screen: ProductsList},
 });
 
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
+ProductsListStack.navigationOptions = {
+  tabBarLabel: 'Produtos',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
-};
-
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
-});
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
-};
-
-const ShopStack = createStackNavigator({
-  Shop: ShopScreen,
-});
-
-ShopStack.navigationOptions = {
-  tabBarLabel: 'Shop',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
     />
   ),
 };
 
 export default createBottomTabNavigator({
   FeedStack,
-  NewProductStack,
   ShopStack,
+  NewProductStack,
+  ProductsListStack,
+  JustusStack
 });
