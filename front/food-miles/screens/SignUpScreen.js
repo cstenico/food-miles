@@ -1,9 +1,11 @@
 import React from 'react';
-import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {ActivityIndicator,StatusBar,Share,Clipboard,View, Image, ImageBackground,ScrollView, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, KeyboardAvoidingView} from 'react-native';
+import { Text, Content, Item, Input, Label} from 'native-base';
+import {ActivityIndicator,Share,Clipboard,View, Image, ScrollView, StyleSheet, TouchableOpacity, Button,  KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
 import axios from 'axios';
-import { Constants, ImagePicker, Permissions } from 'expo';
+import { ImagePicker, Permissions } from 'expo';
+import {AsyncStorage} from 'react-native';
+
 
 
 export default class HomeScreen extends React.Component {
@@ -14,6 +16,16 @@ export default class HomeScreen extends React.Component {
     image: null,
     uploading: false,
     uri : '',
+    response: ''
+  };
+
+  _storeData = async (value) => {
+    try {
+      await AsyncStorage.removeItem('email');
+      await AsyncStorage.setItem('email', value);
+    } catch (error) {
+      // Error saving data
+    }
   };
 
   _maybeRenderUploadingOverlay = () => {
@@ -134,7 +146,7 @@ export default class HomeScreen extends React.Component {
     }*/
   };
 
-  postSignUp(params){
+  postSignUp = async (params) => {
     let uri = this.state.uri
     let uriParts = this.state.uri.split('.');
     let fileType = uriParts[uriParts.length - 1];
@@ -148,12 +160,12 @@ export default class HomeScreen extends React.Component {
     formData.append('name', params.name);
     formData.append('cpf', params.cpf);
     formData.append('email', params.email);
-    formData.append('phone', params.phone);
+    formData.append('telephone', params.phone);
     formData.append('password', params.password);
     formData.append('address', params.address);
 
 
-    fetch('https://food-miles-dev-filao.herokuapp.com/signup', {
+    await fetch('https://food-miles-dev-filao.herokuapp.com/signup', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -161,9 +173,29 @@ export default class HomeScreen extends React.Component {
       },
       body: formData
     })
-    .then((data) => {
-      return data;
-    })
+
+    const res = await fetch('https://food-miles-dev-filao.herokuapp.com/signup_db', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'multipart/form-data',
+      },
+      body: formData
+    }) 
+    console.log("POST RESPONSE: ", JSON.stringify(res));
+
+    const response = res.json()
+    this.setState({...this.state, loading: false, response: res});
+    console.log("ff");
+
+    console.log(res.status);
+    if (res.status == 200){
+      this._storeData(params.email)
+      this.props.navigation.navigate('Main')
+    }else{
+      console.log('Barrado')
+    }
+
   }
 
   render() {
@@ -184,33 +216,15 @@ export default class HomeScreen extends React.Component {
             <Formik
               initialValues={{ email: '', password: '', cpf: '', name: '', phone: '', address: '' }}
               onSubmit={(values, props) => {
+                /*this._storeData(values.email)
                 this.props.navigation.navigate('Main', {
                   email: values.email,
-                  name: 'Camila',
-                });
-                /*this.postSignUp(values).then( response => {
-                  response.json();
-                  console.log("POST RESPONSE: ", JSON.stringify(response));
-
-                  res = response.body.json()
-                  if (res.code == 200){
-                    this.props.navigation.navigate('Main', {
-                      email: values.email,
-                      name: values.name,
-                    });
-                  }else{
-                    Alert.alert(
-                      'Alert Title',
-                      'My Alert Msg',
-                      [
-                        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel',},
-                        {text: 'OK', onPress: () => console.log('OK Pressed')},
-                      ],
-                      {cancelable: false},
-                    );
-                  }
+                  name: values.name,
+                  address: values.address,
+                  phone: values.phone
                 });*/
+                this.postSignUp(values)
+
               }}
             >
               {props => (

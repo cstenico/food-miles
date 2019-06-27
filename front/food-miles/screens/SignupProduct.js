@@ -54,6 +54,7 @@ export default class SignupProduct extends React.Component {
 
     render() {
         return (
+            <ScrollView>
             <View style={styles.container}>
 
                 <View style={styles.v5}>
@@ -115,6 +116,7 @@ export default class SignupProduct extends React.Component {
                 </View>
 
             </View>
+            </ScrollView>
         );
     }
 }
@@ -130,7 +132,10 @@ const styles = StyleSheet.create({
         width: 200,
         backgroundColor: '#F4F7ED',
         justifyContent: 'center',
-        padding: 110,
+        paddingLeft: 80,
+        paddingRight: 110,
+        paddingTop: 110,
+        paddingBottom: 110,
     },
     v2: {
         flex: 1,

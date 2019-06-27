@@ -11,41 +11,21 @@ export default class HomeScreen extends React.Component {
 
   render() {
     return (
+
       <View style={ styles.container }>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
             <Card transparent style={styles.cardStyle}>
               <CardItem style={styles.cardStyle}>
                 <Left>
-                  <Button 
-                    containerStyle = {[{width: 50}]}
-                    type = "clear"
-                    icon={
-                      <Icon
-                        name="arrow-left"
-                        size={24}
-                        color='black'
-                      />
-                    }
-                  />
-                </Left>
-                <Right>
-                <SearchBar
-                  round
-                  searchIcon={{ size: 24 }}
-                  placeholder="Buscar produtos"
-                  containerStyle={styles.searchContainer}
-                  inputStyle={[styles.text,{fontSize: 12}]}
-                  inputContainerStyle={styles.searchInputContainer}
-                />
-                </Right>
-              </CardItem> 
-              <CardItem style={styles.cardStyle}>
-                <Left>
-                  <Thumbnail source={require('../assets/images/profilepic.png')} />
                   <Body>
-                    <Text style={styles.textShopName}>Luciana Gimenez</Text>
-                    <Text style={styles.textAddress}>Sao Carlos, SP</Text>
-                    <Text style={styles.text}> Luciana, vendo produtos feitos em minha horta. Entrego praca XV e regiao. Vamos entrar em contato!</Text>
+                    <Text style={styles.textShopName}>{this.props.seller_name}</Text>
+                    <Text style={styles.textAddress}>São Carlos</Text>
+                    <Text style={styles.text}> Oi, meu nome é {this.props.seller_name}, vem conhecer minha lojinha. Entrar em contato para garantir seu produto com rapidez e qualidade!</Text>
+                    <Text onPress={() => this.props.navigation.navigate('ShopExtended', {
+                                        email: this.props.seller_email,
+                                    })} >
+                                      Detalhes
+                    </Text>
                   </Body>
                 </Left>
               </CardItem>
@@ -145,7 +125,7 @@ var styles = StyleSheet.create({
     color:'#7fa99b'
   },
   cardStyle:{
-    backgroundColor: '#F4F7ED'
+    backgroundColor: '#7fa99b'
   },
   searchContainer: {
     width: 250,

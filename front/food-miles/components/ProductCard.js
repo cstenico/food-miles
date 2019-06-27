@@ -27,7 +27,7 @@ const PD = ({product}) => (
                 </Left>
             </CardItem>
             <CardItem cardBody style={styles.v7}>
-                <Thumbnail source={{uri: product.picture_url}} style={{width: 419, height: 260, borderRadius: null}}/>
+                <Thumbnail source={{uri: product.picture_url}} style={{width: 339, height: 160, borderRadius: null}}/>
             </CardItem>
             <CardItem style={styles.v7}>
                 <Left>
@@ -81,8 +81,8 @@ const styles = StyleSheet.create({
         color: '#7FA99B',
     },
     v6: {
-        height: 419,
-        width: 419,
+        height: 350,
+        width: 340,
         backgroundColor: '#7FA99B',
         borderRadius: 30,
     },
