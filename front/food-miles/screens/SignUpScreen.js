@@ -148,7 +148,7 @@ export default class HomeScreen extends React.Component {
     formData.append('name', params.name);
     formData.append('cpf', params.cpf);
     formData.append('email', params.email);
-    formData.append('phone', params.phone);
+    formData.append('telephone', params.phone);
     formData.append('password', params.password);
     formData.append('address', params.address);
 
@@ -186,7 +186,9 @@ export default class HomeScreen extends React.Component {
               onSubmit={(values, props) => {
                 this.props.navigation.navigate('Main', {
                   email: values.email,
-                  name: 'Camila',
+                  name: values.name,
+                  address: values.address,
+                  phone: values.phone
                 });
                 /*this.postSignUp(values).then( response => {
                   response.json();

@@ -4,23 +4,56 @@ import {View, Image,  ImageBackground, StyleSheet, TouchableOpacity, } from 'rea
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button,SearchBar,ThemeProvider } from 'react-native-elements';
 
-export default class HomeScreen extends React.Component {
+export default class MyShopScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      email: this.props.navigation.getParam('email', ''),
+      name: this.props.navigation.getParam('name', ''),
+      address: this.props.navigation.getParam('address', ''),
+      phone: this.props.navigation.getParam('phone', ''),
+    }
+  }
+
+  getMyShop(){
+
+  }
+
   render() {
     return (
-
       <View style={ styles.container }>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
             <Card transparent style={styles.cardStyle}>
               <CardItem style={styles.cardStyle}>
                 <Left>
+                  <Button 
+                    containerStyle = {[{width: 50}]}
+                    type = "clear"
+                    icon={
+                      <Icon
+                        name="arrow-left"
+                        size={24}
+                        color='black'
+                      />
+                    }
+                  />
+                </Left>
+                <Right>
+                <H1>Minha Loja</H1>
+                </Right>
+              </CardItem> 
+              <CardItem style={styles.cardStyle}>
+                <Left>
+                  <Thumbnail source={require('../assets/images/profilepic.png')} />
                   <Body>
-                    <Text style={styles.textShopName}>{this.props.seller_name}</Text>
-                    <Text style={styles.textAddress}>São Carlos</Text>
-                    <Text style={styles.text}> {this.props.seller_name}, vendo produtos feitos em minha horta. Entrego praca XV e regiao. Vamos entrar em contato!</Text>
+                    <Text style={styles.textShopName}>{this.state.name}</Text>
+                    <Text style={styles.textAddress}>{this.state.address}</Text>
+                    <Text style={styles.text}> {this.state.name}, vendo produtos feitos em casa. Entre em contato!</Text>
                   </Body>
                 </Left>
               </CardItem>

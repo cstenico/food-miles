@@ -1,10 +1,12 @@
 import React from 'react';
 import { Input, Item, Right, Thumbnail, Body, ListItem, StyleProvider, Container, Header, Content, Card, CardItem, Icon, Left} from 'native-base';
-import {View, ScrollView,  Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, Text} from 'react-native';
+import {View, ScrollView,  Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, Text, ActivityIndicator} from 'react-native';
 import { Formik} from 'formik';
 import { SearchBar, ThemeProvider } from 'react-native-elements';
 import SearchResults from '../components/SearchResults'
 import CarouselScreen from './CarouselScreen'
+import axios from 'axios'
+import ShopScreen from './ShopScreen'
 
 export default class FeedScreen extends React.Component {
   static navigationOptions = {
@@ -18,7 +20,24 @@ export default class FeedScreen extends React.Component {
       search: '',
       search_results: '',
       results_screen: false,
+      email: this.props.navigation.getParam('email', ''),
+      name: this.props.navigation.getParam('name', ''),
+      address: this.props.navigation.getParam('address', ''),
+      phone: this.props.navigation.getParam('phone', ''),
+      stores: {},
+      loading: true
 		}
+  }
+
+  getData(){
+      fetch('https://food-miles-dev-filao.herokuapp.com/stores')
+        .then(response => response.data)
+        .then((response) =>  {
+          this.setState({...this.state, loading: false, stores: response});
+        })
+        .catch((error) => {
+          console.error(error);
+        })
   }
 
   updateSearch = search => {
@@ -35,10 +54,10 @@ export default class FeedScreen extends React.Component {
     }
   };
 
+  componentDidMount(){
+    this.getData();
+  }
   render() {
-    const { navigation } = this.props;
-    const username = navigation.getParam('name', 'Usuário');
-    const useremail = navigation.getParam('email', 'example@gmail.com');
 
     if(this.state.results_screen){
       return (
@@ -78,6 +97,8 @@ export default class FeedScreen extends React.Component {
     }else{
       return (
         <View style={ styles.container }>
+          <ActivityIndicator size="large" animating={this.state.loading} />
+
           <Content contentContainerStyle ={{paddingTop: 10, paddingHorizontal: 10}}>
             <View style={styles.v5}>
               <Text> </Text>
@@ -108,6 +129,10 @@ export default class FeedScreen extends React.Component {
 
           </Content>
           <CarouselScreen />
+          {Object.keys(this.state.stores).map(product => (
+              <ProductCard key={this.state.stores[product]} seller_name={this.state.stores[product][0].seller_name} seller_picture={this.state.stores[product][0].seller_url} >
+              </ProductCard>
+          ))}
         </View>
       );
     }

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
     ActivityIndicator,
@@ -28,27 +27,11 @@ export default class CarouselScreen extends React.Component {
             category_images: {
                 Vegetais: 'https://img.icons8.com/cotton/100/000000/lettuce.png',
                 Frutas: 'https://img.icons8.com/cotton/100/000000/avocado.png',
-                Salgados: 'https://img.icons8.com/cotton/100/000000/wrap.png',
+                Salgado: 'https://img.icons8.com/cotton/100/000000/wrap.png',
                 Doces: 'https://img.icons8.com/cotton/100/000000/cupcake-with-a-berry.png',
                 "Feito em Casa": 'https://img.icons8.com/cotton/100/000000/jam.png',
             }
         }
-    }
-
-    onLogin = () => {
-
-        console.log("email: " + String(this.state.email) + " password: " + String(this.state.password));
-
-        axios.post('https://food-miles.herokuapp.com/login', {
-            login: this.state.login, 
-            senha: this.state.senha,
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
     }
 
     getData() {
@@ -69,33 +52,6 @@ export default class CarouselScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-
-                <View style={styles.v5}>
-                    <Text> </Text>
-                </View>
-
-                <ListItem transparent avatar>
-                    <Left>
-                        <Thumbnail source={{ uri: 'https://i.imgur.com/WJOAW4E.png' }} />
-                    </Left>
-                    <Body>
-                        <Text> </Text>
-                        <Text note> </Text>
-                    </Body>
-                    <Right>
-                        <Thumbnail source={{ uri: 'https://i.imgur.com/vlNOtMM.png' }} />
-                    </Right>
-                </ListItem>
-
-                <Header transparent searchBar rounded>
-                    <Item>
-                        <Icon name="ios-search" />
-                        <Input placeholder="Search" />
-                    </Item>
-                    <Button transparent>
-                        <Text>Buscar produtos e lojinhas</Text>
-                    </Button>
-                </Header>
 
                 <ActivityIndicator size="large" animating={this.state.loading} />
                 <ScrollView horizontal>
