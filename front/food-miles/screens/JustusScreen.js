@@ -45,7 +45,7 @@ export default class JustusScreen extends React.Component {
                 <Left>
                   <Thumbnail source={require('../assets/images/profilepic.png')} />
                   <Body>
-                    <Text style={styles.textShopName}>Exemplo</Text>
+                    <Text style={styles.textShopName}>Justus</Text>
                     <Text style={styles.textAddress}>Sao Carlos, SP</Text>
                     <Text style={styles.text}> Justus, vendo produtos feitos em minha horta. Entrego praca XV e regiao. Vamos entrar em contato!</Text>
                   </Body>
