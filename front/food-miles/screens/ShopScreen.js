@@ -20,7 +20,12 @@ export default class HomeScreen extends React.Component {
                   <Body>
                     <Text style={styles.textShopName}>{this.props.seller_name}</Text>
                     <Text style={styles.textAddress}>São Carlos</Text>
-                    <Text style={styles.text}> {this.props.seller_name}, vendo produtos feitos em minha horta. Entrego praca XV e regiao. Vamos entrar em contato!</Text>
+                    <Text style={styles.text}> Oi, meu nome é {this.props.seller_name}, vem conhecer minha lojinha. Entrar em contato para garantir seu produto com rapidez e qualidade!</Text>
+                    <Text onPress={() => this.props.navigation.navigate('ShopExtended', {
+                                        email: this.props.seller_email,
+                                    })} >
+                                      Detalhes
+                    </Text>
                   </Body>
                 </Left>
               </CardItem>
@@ -120,7 +125,7 @@ var styles = StyleSheet.create({
     color:'#7fa99b'
   },
   cardStyle:{
-    backgroundColor: '#F4F7ED'
+    backgroundColor: '#7fa99b'
   },
   searchContainer: {
     width: 250,

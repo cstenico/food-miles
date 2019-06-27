@@ -8,9 +8,11 @@ import TabBarIcon from '../components/TabBarIcon';
 import FeedScreen from '../screens/FeedScreen';
 import MyShopScreen from '../screens/MyShopScreen';
 import NewProductScreen from '../screens/SignupProduct';
+import ShopExtended from '../screens/ShopExtendedScreen';
 
 const FeedStack = createStackNavigator({
   Feed: FeedScreen,
+  ShopExtended: ShopExtended,
 });
 
 FeedStack.navigationOptions = {
@@ -38,8 +40,8 @@ MyShopStack.navigationOptions = {
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-card${focused ? '' : '-outline'}`
+          : 'md-card'
       }
     />
   ),
@@ -50,14 +52,14 @@ const NewProductStack = createStackNavigator({
 });
 
 NewProductStack.navigationOptions = {
-  tabBarLabel: 'Minha Loja',
+  tabBarLabel: 'Novo Produto',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          ? `ios-pizza${focused ? '' : '-outline'}`
+          : 'md-pizza'
       }
     />
   ),

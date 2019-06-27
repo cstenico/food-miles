@@ -1,20 +1,24 @@
 import React from 'react';
-import { Text, Content, H1, Thumbnail, Item, Input, Label, Left} from 'native-base';
-import {View, Image, ImageBackground, StyleSheet, TouchableOpacity, Button, FormLabel, FormInput, FormValidationMessage, ScrollView, KeyboardAvoidingView} from 'react-native';
+import { Text, Content, Item, Input, Label, Left} from 'native-base';
+import { Image, StyleSheet, TouchableOpacity, ScrollView, KeyboardAvoidingView} from 'react-native';
 import { Formik} from 'formik';
+import {AsyncStorage} from 'react-native';
+
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
 
-  postLogin(params){
+  postLogin = async (params) => {
+    
     let formData = new FormData();
+
     formData.append('email', params.email);
     formData.append('password', params.password);
 
-
-    fetch('https://food-miles.herokuapp.com/login', {
+    
+    const res = await fetch('https://food-miles-dev-filao.herokuapp.com/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -22,10 +26,30 @@ export default class HomeScreen extends React.Component {
       },
       body: formData
     })
-    .then((data) => {
-      return data;
-    })
+
+    
+    console.log("POST RESPONSE: ", JSON.stringify(res));
+
+    this.setState({...this.state, loading: false, response: res});
+
+    console.log(res.status);
+    if (res.status == 200){
+      this._storeData(params.email)
+      this.props.navigation.navigate('Main')
+    }else{
+      console.log('Barrado')
+    }
+
   }
+
+  _storeData = async (value) => {
+    try {
+      await AsyncStorage.removeItem('email');
+      await AsyncStorage.setItem('email', value);
+    } catch (error) {
+      // Error saving data
+    }
+  };
 
   render() {
     return (
@@ -41,29 +65,7 @@ export default class HomeScreen extends React.Component {
             <Formik
                 initialValues={{ email: '', password: '' }}
                 onSubmit={(values, props) => {
-                  this.postLogin(values).then( response => {
-                    response.json();
-                    console.log("POST RESPONSE: ", JSON.stringify(response));
-
-                    res = response.body.json()
-                    if (res.code == 200){
-                      this.props.navigation.navigate('Main', {
-                        email: values.email,
-                        name: 'Foo',
-                      });
-                    }else{
-                      Alert.alert(
-                        'Alert Title',
-                        'My Alert Msg',
-                        [
-                          {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-                          {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel',},
-                          {text: 'OK', onPress: () => console.log('OK Pressed')},
-                        ],
-                        {cancelable: false},
-                      );
-                    }
-                  });
+                  this.postLogin(values)
                 }}
               >
                 {props => (

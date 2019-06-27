@@ -6,10 +6,8 @@ import { Button,SearchBar,ThemeProvider } from 'react-native-elements';
 import {AsyncStorage} from 'react-native';
 import axios from 'axios'
 import ProductsCard from '../components/ProductCard'
-import { StackNavigator } from 'react-navigation';
 
-
-export default class MyShopScreen extends React.Component {
+export default class ShopExtendedScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -18,7 +16,7 @@ export default class MyShopScreen extends React.Component {
     super(props);
 
     this.state = {
-      email: '',
+      email: this.props.navigation.getParam('email', ''),
       name: '',
       address: '',
       telephone: '',
@@ -34,7 +32,6 @@ export default class MyShopScreen extends React.Component {
       if (value !== null) {
         this.setState({email: value})
         console.log(value);
-        this.getMyShop();
       }
     } catch (error) {
       // Error retrieving data
@@ -52,46 +49,11 @@ export default class MyShopScreen extends React.Component {
     })
   }
 
-  componentDidMount() {
-    this._retrieveData();
-    //this.getMyShop();
+  componentDidMount(){
+    this.getMyShop();
   }
 
   render() {
-    if(this.state.store.length == 0){
-      return (
-        <View style={ styles.container }>
-          <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
-              <ActivityIndicator size="large" animating={this.state.loading} />
-              <Card transparent style={styles.cardStyle}>
-                <CardItem style={styles.cardStyle}>
-                  <Left>
-                    <Button 
-                      containerStyle = {[{width: 50}]}
-                      type = "clear"
-                      icon={
-                        <Icon
-                          name="arrow-left"
-                          size={24}
-                          color='black'
-                        />
-                      }
-                    />
-                  </Left>
-                  <Right>
-                  <H1>Minha Loja</H1>
-                  </Right>
-                </CardItem> 
-                <CardItem style={styles.cardStyle}>
-                  
-                      <Text style={styles.textShopName}>Você ainda não tem produtos cadastrados! Comece agora colocando um produto</Text>
-                    
-                </CardItem>
-              </Card>
-          </Content> 
-        </View>
-      );
-    }else{
     return (
       <View style={ styles.container }>
         <Content contentContainerStyle ={{paddingTop: 50, paddingHorizontal: 10}}>
@@ -128,7 +90,7 @@ export default class MyShopScreen extends React.Component {
             </Card>
             {
                         Object.keys(this.state.store).map((produtos) => (
-                            <View key={this.state.store[produtos].name}>
+                            <View key={this.state.store[produtos]}>
                                 <ProductsCard
                                         product={this.state.store[produtos]}
                                     >
@@ -139,7 +101,6 @@ export default class MyShopScreen extends React.Component {
         </Content> 
       </View>
     );
-                  }
   }
 }
 
