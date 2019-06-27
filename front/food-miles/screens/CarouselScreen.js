@@ -70,33 +70,6 @@ export default class CarouselScreen extends React.Component {
         return (
             <View style={styles.container}>
 
-                <View style={styles.v5}>
-                    <Text> </Text>
-                </View>
-
-                <ListItem transparent avatar>
-                    <Left>
-                        <Thumbnail source={{ uri: 'https://i.imgur.com/WJOAW4E.png' }} />
-                    </Left>
-                    <Body>
-                        <Text> </Text>
-                        <Text note> </Text>
-                    </Body>
-                    <Right>
-                        <Thumbnail source={{ uri: 'https://i.imgur.com/vlNOtMM.png' }} />
-                    </Right>
-                </ListItem>
-
-                <Header transparent searchBar rounded>
-                    <Item>
-                        <Icon name="ios-search" />
-                        <Input placeholder="Search" />
-                    </Item>
-                    <Button transparent>
-                        <Text>Buscar produtos e lojinhas</Text>
-                    </Button>
-                </Header>
-
                 <ActivityIndicator size="large" animating={this.state.loading} />
                 <ScrollView horizontal>
                     {

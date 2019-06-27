@@ -37,7 +37,7 @@ export default class FeedScreen extends React.Component {
 
   render() {
     const { navigation } = this.props;
-    const username = navigation.getParam('name', 'Usuário');
+    const username = navigation.getParam('name', 'Exemplo');
     const useremail = navigation.getParam('email', 'example@gmail.com');
 
     if(this.state.results_screen){

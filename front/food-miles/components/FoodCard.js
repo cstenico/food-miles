@@ -3,19 +3,25 @@ import { View, Image, ImageBackground, StyleSheet, TouchableOpacity} from 'react
 import { Container, Content, Card, CardItem, Thumbnail, Text, Button, Icon, Left, Right, Body } from 'native-base';
 
 export default class FoodCard extends Component {
+  constructor(props) {
+		super(props);
+
+  }
+
   render() {
+
     return (
-      <Card styles={{ card: { backgroundColor: '#7FA99B' }}}>
-        <CardItem>
+      <Card transparent style={{ card: { backgroundColor: '#7FA99B' }}}>
+        <CardItem style={{ card: { backgroundColor: '#7FA99B' }}}>
           <Left>
             <Text style={styles.textTitle}>{this.props.item.name}</Text>
           </Left>
         </CardItem>
-        <CardItem>
+        <CardItem style={{ card: { backgroundColor: '#7FA99B' }}}>
           <Left>
             <Thumbnail source={{uri: this.props.shop.image}} />
             <Body>
-              <Text style={styles.textShopName}>{this.props.shop.name}</Text>
+              <Text style={styles.textShopName} onPress={() => this.props.navigation.navigate('Justus')}>{this.props.shop.name}</Text>
               <Text style={styles.textAddress}>{this.props.shop.address}</Text>
             </Body>
           </Left>
@@ -24,8 +30,8 @@ export default class FoodCard extends Component {
               <Text style={styles.textPrice}>{this.props.item.price}</Text>
             </Button>
           </Right>
-        </CardItem>
-        <CardItem>
+        </CardItem >
+        <CardItem style={{ card: { backgroundColor: '#7FA99B' }}}>
           <Body>
             <Right>
             <Image
@@ -37,7 +43,7 @@ export default class FoodCard extends Component {
             </Text>
           </Body>
         </CardItem>
-        <CardItem>
+        <CardItem style={{ card: { backgroundColor: '#7FA99B' }}}>
             <Button style={styles.chatButton}>
               <Text style={styles.textButton}>Contato</Text>
             </Button>

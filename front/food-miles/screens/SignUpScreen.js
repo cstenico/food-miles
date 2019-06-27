@@ -140,11 +140,11 @@ export default class HomeScreen extends React.Component {
     let fileType = uriParts[uriParts.length - 1];
 
     let formData = new FormData();
-    /*formData.append('user_image', {
+    formData.append('user_image', {
       uri,
       name: `photo.${fileType}`,
       type: `image/${fileType}`,
-    });*/
+    });
     formData.append('name', params.name);
     formData.append('cpf', params.cpf);
     formData.append('email', params.email);
@@ -185,11 +185,11 @@ export default class HomeScreen extends React.Component {
             <Formik
               initialValues={{ email: '', password: '', cpf: '', name: '', phone: '', address: '' }}
               onSubmit={(values, props) => {
-                /*this.props.navigation.navigate('Main', {
+                this.props.navigation.navigate('Main', {
                   email: values.email,
                   name: 'Camila',
-                });*/
-                this.postSignUp(values).then( response => {
+                });
+                /*this.postSignUp(values).then( response => {
                   response.json();
                   console.log("POST RESPONSE: ", JSON.stringify(response));
 
@@ -211,7 +211,7 @@ export default class HomeScreen extends React.Component {
                       {cancelable: false},
                     );
                   }
-                });
+                });*/
               }}
             >
               {props => (

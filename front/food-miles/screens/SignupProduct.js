@@ -79,7 +79,7 @@ export default class SignupProduct extends React.Component {
                     <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ user_id: value }) }}
-                            placeholder='Identificação do Usuario' />
+                            placeholder='Identificação do Usuário' />
                     </Item>
                     <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
@@ -99,7 +99,7 @@ export default class SignupProduct extends React.Component {
                     <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ product_description: value }) }}
-                            placeholder='Descriçao do Produto' />
+                            placeholder='Descrição do Produto' />
                     </Item>
                     <Form>
                         <Item picker>
@@ -153,7 +153,10 @@ const styles = StyleSheet.create({
         width: 200,
         backgroundColor: '#F4F7ED',
         justifyContent: 'center',
-        padding: 110,
+        paddingRight: 110,
+        paddingLeft: 80,
+        paddingTop: 110,
+        paddingBottom: 110,
     },
     v2: {
         flex: 1,

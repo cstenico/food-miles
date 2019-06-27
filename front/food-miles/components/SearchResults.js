@@ -41,7 +41,7 @@ export default class SearchResults extends Component {
         </Card>
         <Card>
           {this.props.results[1].map(function(product, index){
-            return <FoodCard item={product} shop={{name: product.name, address: '', image: product.seller_picture, }} index={index}/>;
+            return <FoodCard item={product} shop={{name: product.seller_name, address: '', image: product.seller_picture, }} index={index}/>;
           })}
         </Card>
 			</Content>

@@ -3,8 +3,10 @@ import { Text, Content, H1, Thumbnail, Left, Right, Body, Card, CardItem} from '
 import {View, Image,  ImageBackground, StyleSheet, TouchableOpacity, } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button,SearchBar,ThemeProvider } from 'react-native-elements';
+import FoodCard from './../components/FoodCard'
 
-export default class HomeScreen extends React.Component {
+
+export default class JustusScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
@@ -43,13 +45,16 @@ export default class HomeScreen extends React.Component {
                 <Left>
                   <Thumbnail source={require('../assets/images/profilepic.png')} />
                   <Body>
-                    <Text style={styles.textShopName}>Luciana Gimenez</Text>
+                    <Text style={styles.textShopName}>Exemplo</Text>
                     <Text style={styles.textAddress}>Sao Carlos, SP</Text>
-                    <Text style={styles.text}> Luciana, vendo produtos feitos em minha horta. Entrego praca XV e regiao. Vamos entrar em contato!</Text>
+                    <Text style={styles.text}> Justus, vendo produtos feitos em minha horta. Entrego praca XV e regiao. Vamos entrar em contato!</Text>
                   </Body>
                 </Left>
               </CardItem>
             </Card>
+            <FoodCard item={{name: 'Laranja', price: 10, picture_url: "https://img.estadao.com.br/thumbs/640/resources/jpg/9/8/1527684459989.jpg", description: "Laranja muito boa"}} shop={{name: 'Justus', address: 'São Carlos', image: "https://pbs.twimg.com/profile_images/1035371242881265664/jwbIlX-2.jpg", }} />
+            <FoodCard item={{name: 'Maçã', price: 10, picture_url: "https://img.itdg.com.br/tdg/images/blog/uploads/2017/05/shutterstock_290834552.jpg", description: "Maçã deliciosa"}} shop={{name: 'Justus', address: 'São Carlos', image: "https://pbs.twimg.com/profile_images/1035371242881265664/jwbIlX-2.jpg", }} />
+
         </Content> 
       </View>
     );
