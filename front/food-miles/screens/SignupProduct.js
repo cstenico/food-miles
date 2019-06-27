@@ -21,8 +21,6 @@ export default class SignupProduct extends React.Component {
         super(props);
 
         this.state = {
-            user_id: '',
-            user_email: '',
             product_name: '',
             product_price: '',
             product_description: '',
@@ -31,16 +29,14 @@ export default class SignupProduct extends React.Component {
         }
     }
 
-    onLogin = () => {
+    onSignup = () => {
 
-        axios.post('https://food-miles.herokuapp.com/products', {
-            user_id: this.state.user_id,
-            user_email: this.state.user_email, 
+        return(axios.post('https://food-miles.herokuapp.com/products', {
             product_name: this.state.product_name, 
             product_price: this.state.product_price,
             product_description: this.state.product_description,
-            product_category: this.state.product_category,
-        })
+            product_description: this.state.product_category,
+        }))
         .then(function (response) {
             console.log(response);
         })
@@ -49,16 +45,10 @@ export default class SignupProduct extends React.Component {
         });
     }
 
-    onValueChange = () => {
+    onValueChange(value: string) {
 
-        axios.post('https://food-miles.herokuapp.com/products', {
-            product_category: this.state.product_category,
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
+        this.setState({
+            selected: value
         });
     }
 
@@ -76,16 +66,6 @@ export default class SignupProduct extends React.Component {
                 </View>    
 
                 <View style={{margin: 20}}>
-                    <Item style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <Input
-                            onChangeText={(value) => { this.setState({ user_id: value }) }}
-                            placeholder='Identificação do Usuario' />
-                    </Item>
-                    <Item style={{justifyContent: 'center', alignItems: 'center'}}>
-                        <Input
-                            onChangeText={(value) => { this.setState({ user_email: value }) }}
-                            placeholder='Email' />
-                    </Item>
                     <Item style={{justifyContent: 'center', alignItems: 'center'}}>
                         <Input
                             onChangeText={(value) => { this.setState({ product_name: value }) }}
@@ -111,7 +91,7 @@ export default class SignupProduct extends React.Component {
                             placeholderStyle={{ color: "#7FA99B" }}
                             placeholderIconColor="#007aff"
                             selectedValue={this.state.selected}
-                            onValueChange={(value) => { this.setState({ product_description: value }) }}
+                            onValueChange={this.onValueChange.bind(this)}
                           >
                             <Picker.Item label="Vegetais" value="Vegetais" />
                             <Picker.Item label="Frutas" value="Frutas" />
@@ -123,18 +103,15 @@ export default class SignupProduct extends React.Component {
                     </Form>
                 </View>
 
-                <View style={styles.v4}>
-                    <Button transparent style={{ padding: 151 }}
-                        onPress={() => {
-                            this.props.navigation.dispatch(StackActions.reset({
-                                index: 0,
-                                actions: [
-                                    NavigationActions.navigate({ routeName: 'Carousel' })
-                                ],
-                            }))
-                        }}>
-                        <Text>CADASTRAR</Text>
-                    </Button>
+                <View style={styles.v4}> 
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <Button transparent style={{ padding: null }} 
+                            onPress={() => {
+                                this.onSignup().then(() => this.props.navigation.navigate('Carousel'));
+                            }}>
+                            <Text>CADASTRAR</Text>
+                        </Button>
+                    </View>
                 </View>
 
             </View>
