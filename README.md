@@ -17,6 +17,10 @@ Ao anunciar um produto, esse item vai automaticamente para a lojinha do usuário
 
 O perfil do usuário funciona como uma vitrine dos produtos que está colocando à venda. 
 
+<p><a href="https://food-miles.herokuapp.com/"> Veja a nossa API </a></p>
+<p><a href="https://marvelapp.com/hbf2j1e"> Veja o nosso protótipo </a></p>
+
+
 ## Team
 
 Camila Stenico dos Santos - 8530952
